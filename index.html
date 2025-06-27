@@ -25,43 +25,43 @@
       <div class="gallery-card">
         <img src="assets/gallery_dummy_01.png" alt="作品1">
         <div class="gallery-icons">
-          <img src="icons/heart.svg" alt="いいね">
-          <img src="icons/omikuji.svg" alt="おみくじ">
+          <span class="like-btn" data-liked="false">♡ <span class="like-count">0</span></span>
+          <span class="omikuji-btn">📜</span>
         </div>
       </div>
       <div class="gallery-card">
         <img src="assets/gallery_dummy_02.png" alt="作品2">
         <div class="gallery-icons">
-          <img src="icons/heart.svg" alt="いいね">
-          <img src="icons/omikuji.svg" alt="おみくじ">
+          <span class="like-btn" data-liked="false">♡ <span class="like-count">0</span></span>
+          <span class="omikuji-btn">📜</span>
         </div>
       </div>
       <div class="gallery-card">
         <img src="assets/gallery_dummy_03.png" alt="作品3">
         <div class="gallery-icons">
-          <img src="icons/heart.svg" alt="いいね">
-          <img src="icons/omikuji.svg" alt="おみくじ">
+          <span class="like-btn" data-liked="false">♡ <span class="like-count">0</span></span>
+          <span class="omikuji-btn">📜</span>
         </div>
       </div>
       <div class="gallery-card">
         <img src="assets/gallery_dummy_04.png" alt="作品4">
         <div class="gallery-icons">
-          <img src="icons/heart.svg" alt="いいね">
-          <img src="icons/omikuji.svg" alt="おみくじ">
+          <span class="like-btn" data-liked="false">♡ <span class="like-count">0</span></span>
+          <span class="omikuji-btn">📜</span>
         </div>
       </div>
       <div class="gallery-card">
         <img src="assets/gallery_dummy_05.png" alt="作品5">
         <div class="gallery-icons">
-          <img src="icons/heart.svg" alt="いいね">
-          <img src="icons/omikuji.svg" alt="おみくじ">
+          <span class="like-btn" data-liked="false">♡ <span class="like-count">0</span></span>
+          <span class="omikuji-btn">📜</span>
         </div>
       </div>
       <div class="gallery-card">
         <img src="assets/gallery_dummy_06.png" alt="作品6">
         <div class="gallery-icons">
-          <img src="icons/heart.svg" alt="いいね">
-          <img src="icons/omikuji.svg" alt="おみくじ">
+          <span class="like-btn" data-liked="false">♡ <span class="like-count">0</span></span>
+          <span class="omikuji-btn">📜</span>
         </div>
       </div>
     </div>
@@ -79,5 +79,12 @@
       <div class="copyright">© Kaiun Orochi Project 2025</div>
     </div>
   </footer>
+  <div id="modal-overlay"></div>
+  <div id="omikuji-modal">
+    <span class="close-modal">&times;</span>
+    <img id="modal-image" src="" alt="おみくじ対象作品">
+    <p id="omikuji-result"></p>
+  </div>
+  <script src="main.js"></script>
 </body>
 </html>
