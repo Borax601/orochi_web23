@@ -2,97 +2,77 @@ body {
   margin: 0;
   font-family: 'Noto Sans JP', sans-serif;
   background: #F1FAEE;
-  color: #222;
 }
-/* --- 新ヘッダーのスタイル（2コマアニメーション方式） --- */
-.hero {
-  background-color: #f8f0e3;
-  color: #333;
-  padding: 60px 20px;
-  text-align: center;
+#splash-screen {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: #2c2a4a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.8s ease-out, visibility 0.8s;
+  z-index: 200;
+  cursor: pointer;
+}
+#main-content {
+  display: none;
+  opacity: 0;
+  transition: opacity 1s ease-in;
 }
 .hero-container {
   max-width: 960px;
   margin: 0 auto;
+  text-align: center;
 }
 .hero-image-container {
-  position: relative; /* 画像を重ねるための基準位置 */
+  position: relative;
   max-width: 300px;
   margin: 0 auto 30px;
 }
 .hero-torii, .hero-orochi {
-  position: absolute; /* 全ての画像を重ねる */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: auto;
 }
 .hero-torii {
-  position: relative; /* 鳥居は重ね合わせの土台とする */
+  position: relative;
   z-index: 1;
 }
 .hero-orochi {
-  z-index: 2; /* オロチは鳥居の上に配置 */
+  z-index: 2;
 }
-
-/* --- 2コマアニメーション --- */
-#orochi-pose-a {
-  animation: switch-image-a 3s steps(1, end) infinite;
-}
-@keyframes switch-image-a {
-  0%, 48%, 100% { opacity: 1; }
-  50%, 98% { opacity: 0; }
-}
-#orochi-pose-b {
-  animation: switch-image-b 3s steps(1, end) infinite;
-}
-@keyframes switch-image-b {
-  0%, 48%, 100% { opacity: 0; }
-  50%, 98% { opacity: 1; }
-}
-
-
 .hero-text h1 {
   font-family: 'Shippori Mincho', serif;
   font-size: 2.5rem;
   margin-bottom: 10px;
-  color: #d4af37;
+  color: #fff;
 }
 .hero-text p.scroll-guide {
   font-size: 1.1rem;
+  color: #fff;
 }
-
-/* レスポンシブ対応 */
-@media (max-width: 768px) {
-  .hero {
-    padding: 40px 10px;
-  }
-  .hero-image-container {
-    max-width: 200px;
-  }
-  .hero-text h1 {
-    font-size: 2rem;
-  }
+.hero-orochi {
+  opacity: 0;
 }
-
+@keyframes loop-ab {
+  0%, 49.9% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.is-looping#orochi-pose-a {
+  animation: loop-ab 2s infinite;
+  animation-delay: 0s;
+}
+.is-looping#orochi-pose-b {
+  animation: loop-ab 2s infinite;
+  animation-delay: 1s;
+}
+.is-clicked#orochi-pose-c,
+.is-clicked#orochi-pose-d {
+  opacity: 1;
+}
 .gallery-section {
-  background: #F1FAEE;
-  position: relative;
-  padding: 48px 0 56px 0;
-  overflow: hidden;
-}
-.gallery-bg-pattern {
-  position: absolute;
-  inset: 0;
-  background-image: url('icons/asanoha_pattern.svg');
-  background-repeat: repeat;
-  opacity: 0.08;
-  pointer-events: none;
-  z-index: 0;
+  padding: 48px 20px;
 }
 .gallery-grid {
-  position: relative;
-  z-index: 1;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 32px;
@@ -101,151 +81,43 @@ body {
 }
 .gallery-card {
   background: #fff;
-  border: 2px solid #E5E5E5;
+  border: 1px solid #E5E5E5;
   border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(61,43,79,0.06);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 16px;
 }
 .gallery-card img {
-  max-width: 100%;
-  height: auto;
+  width: 100%;
   display: block;
-  margin-bottom: 8px;
 }
 .gallery-icons {
   display: flex;
   gap: 16px;
   justify-content: center;
-  margin-top: 8px;
+  padding: 16px;
+  font-size: 24px;
 }
-.gallery-icons img {
-  width: 28px;
-  height: 28px;
-  opacity: 0.8;
-}
+.like-btn, .omikuji-btn { cursor: pointer; }
 .footer {
   background: #2F4858;
   color: #fff;
-  padding: 32px 0 16px 0;
-}
-.footer-content {
-  max-width: 980px;
-  margin: 0 auto;
+  padding: 32px 20px;
   text-align: center;
-}
-.footer-links {
-  margin-bottom: 16px;
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-}
-.footer-links img {
-  width: 32px;
-  height: 32px;
-  opacity: 0.8;
-}
-.footer-text {
-  font-size: 1.1rem;
-  margin-bottom: 8px;
 }
 .copyright {
   font-size: 0.95rem;
   color: #FFD700;
 }
-.like-btn[data-liked="true"] {
-  color: #e53935;
-}
 #modal-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 100;
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); z-index: 300;
 }
 #omikuji-modal {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
+  display: none; position: fixed; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  z-index: 101;
-  text-align: center;
-  max-width: 90%;
-  width: 350px;
+  background-color: white; padding: 30px; border-radius: 12px;
+  width: 90%; max-width: 380px; z-index: 301; text-align: center;
 }
-#modal-image {
-  max-width: 100%;
-  height: auto;
-  max-height: 200px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-#omikuji-result {
-  font-family: 'Shippori Mincho', serif;
-  font-size: 1.2rem;
-  font-weight: bold;
-  line-height: 1.6;
-  margin: 0;
-}
-.close-modal {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 28px;
-  color: #888;
-  cursor: pointer;
-  line-height: 1;
-}
-.close-modal:hover {
-  color: #333;
-}
-@media (max-width: 600px) {
-  .hero {
-    padding: 32px 0 20px 0;
-  }
-  .site-logo {
-    font-size: 1.4rem;
-  }
-  .orochi {
-    width: 90px;
-  }
-  .gallery-section {
-    padding: 32px 0 36px 0;
-  }
-  .gallery-grid {
-    gap: 16px;
-    grid-template-columns: 1fr;
-  }
-  .footer {
-    padding: 20px 0 10px 0;
-  }
-}
-
-/* --- ヘッダーSVGアニメーション --- */
-
-@keyframes floatAnimation {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-#orochi-anim {
-  animation: floatAnimation 4s ease-in-out infinite;
-}
+#modal-image { max-width: 100%; max-height: 200px; margin-bottom: 20px; }
+#omikuji-result { font-family: 'Shippori Mincho', serif; font-size: 1.2rem; }
+.close-modal { position: absolute; top: 10px; right: 15px; font-size: 28px; cursor: pointer; }

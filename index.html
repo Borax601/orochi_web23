@@ -8,94 +8,43 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Shippori+Mincho:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- セクション1: ヘッダー / ファーストビュー -->
-  <header class="hero">
-    <div class="hero-container">
+
+  <div id="splash-screen">
+    <div class="splash-content">
       <div class="hero-image-container">
         <img src="assets/torii.svg" alt="鳥居" class="hero-torii">
         <img src="assets/orochi_a.svg" alt="開運オロチ" class="hero-orochi" id="orochi-pose-a">
         <img src="assets/orochi_b.svg" alt="開運オロチ" class="hero-orochi" id="orochi-pose-b">
+        <img src="assets/orochi_c.svg" alt="開運オロチ" class="hero-orochi" id="orochi-pose-c">
+        <img src="assets/orochi_d.svg" alt="開運オロチ" class="hero-orochi" id="orochi-pose-d">
       </div>
       <div class="hero-text">
         <h1>開運オロチ神社</h1>
-        <p class="scroll-guide">スクロールして幸運をゲット！</p>
+        <p class="scroll-guide">オロチをクリックして中へ</p>
       </div>
     </div>
-  </header>
-  <div class="hero-text">
-   <h1>開運オロチ神社</h1>
-   <p class="scroll-guide">スクロールして幸運をゲット！</p>
   </div>
- </div>
-</header>
 
-  <!-- セクション2: ギャラリー -->
-  <section class="gallery-section">
-    <div class="gallery-bg-pattern"></div>
-    <div class="gallery-grid">
-      <div class="gallery-card">
-        <img src="assets/gallery_dummy_01.png" alt="作品1">
-        <div class="gallery-icons">
-          <span class="like-btn" data-liked="false">♡ <span class="like-count">0</span></span>
-          <span class="omikuji-btn">📜</span>
-        </div>
+  <main id="main-content">
+    <section class="gallery-section">
+      <div class="gallery-grid">
+        <div class="gallery-card"><img src="assets/gallery_dummy_01.png" alt="作品1"><div class="gallery-icons"><span class="like-btn" data-liked="false">♡ <span class="like-count">0</span></span><span class="omikuji-btn">📜</span></div></div>
+        <div class="gallery-card"><img src="assets/gallery_dummy_02.png" alt="作品2"><div class="gallery-icons"><span class="like-btn" data-liked="false">♡ <span class="like-count">0</span></span><span class="omikuji-btn">📜</span></div></div>
       </div>
-      <div class="gallery-card">
-        <img src="assets/gallery_dummy_02.png" alt="作品2">
-        <div class="gallery-icons">
-          <span class="like-btn" data-liked="false">♡ <span class="like-count">0</span></span>
-          <span class="omikuji-btn">📜</span>
-        </div>
-      </div>
-      <div class="gallery-card">
-        <img src="assets/gallery_dummy_03.png" alt="作品3">
-        <div class="gallery-icons">
-          <span class="like-btn" data-liked="false">♡ <span class="like-count">0</span></span>
-          <span class="omikuji-btn">📜</span>
-        </div>
-      </div>
-      <div class="gallery-card">
-        <img src="assets/gallery_dummy_04.png" alt="作品4">
-        <div class="gallery-icons">
-          <span class="like-btn" data-liked="false">♡ <span class="like-count">0</span></span>
-          <span class="omikuji-btn">📜</span>
-        </div>
-      </div>
-      <div class="gallery-card">
-        <img src="assets/gallery_dummy_05.png" alt="作品5">
-        <div class="gallery-icons">
-          <span class="like-btn" data-liked="false">♡ <span class="like-count">0</span></span>
-          <span class="omikuji-btn">📜</span>
-        </div>
-      </div>
-      <div class="gallery-card">
-        <img src="assets/gallery_dummy_06.png" alt="作品6">
-        <div class="gallery-icons">
-          <span class="like-btn" data-liked="false">♡ <span class="like-count">0</span></span>
-          <span class="omikuji-btn">📜</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- セクション3: フッター -->
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-links">
-        <a href="#"><img src="icons/link1.svg" alt="リンク1"></a>
-        <a href="#"><img src="icons/link2.svg" alt="リンク2"></a>
-        <a href="#"><img src="icons/link3.svg" alt="リンク3"></a>
-      </div>
-      <div class="footer-text">グッズ販売準備中…</div>
+    </section>
+    <footer class="footer">
       <div class="copyright">© Kaiun Orochi Project 2025</div>
-    </div>
-  </footer>
+    </footer>
+  </main>
+
   <div id="modal-overlay"></div>
   <div id="omikuji-modal">
     <span class="close-modal">&times;</span>
     <img id="modal-image" src="" alt="おみくじ対象作品">
     <p id="omikuji-result"></p>
   </div>
+
   <script src="main.js"></script>
+
 </body>
 </html>
