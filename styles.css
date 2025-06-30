@@ -6,7 +6,7 @@ body {
 #splash-screen {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: #2c2a4a;
+  background: linear-gradient(to bottom, #594589, #EFEFB9);
   display: flex;
   justify-content: center;
   align-items: center;
