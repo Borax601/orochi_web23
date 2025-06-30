@@ -6,14 +6,16 @@ window.addEventListener('DOMContentLoaded', () => {
   const orochiB = document.getElementById('orochi-pose-b');
   const orochiC = document.getElementById('orochi-pose-c');
   const orochiD = document.getElementById('orochi-pose-d');
+const orochiE = document.getElementById('orochi-pose-e');
 
   if (orochiA && orochiB) {
     orochiA.classList.add('is-looping');
     orochiB.classList.add('is-looping');
   }
 
-  if (splashScreen && mainContent && orochiC && orochiD) {
+  if (splashScreen && mainContent && orochiC && orochiD && orochiE) {
     splashScreen.addEventListener('click', () => {
+      // 待機ループを停止
       orochiA.classList.remove('is-looping');
       orochiB.classList.remove('is-looping');
       orochiA.style.opacity = '0';
@@ -22,19 +24,29 @@ window.addEventListener('DOMContentLoaded', () => {
       // ポーズCを表示
       orochiC.classList.add('is-clicked');
 
-      // 0.5秒後にCを消してDを表示
+      // 0.4秒後にCを消してDを表示
       setTimeout(() => {
         orochiC.classList.remove('is-clicked');
         orochiD.classList.add('is-clicked');
 
-        // さらに0.5秒後に画面遷移
+        // さらに0.4秒後にDを消してEを表示
         setTimeout(() => {
-          splashScreen.style.opacity = '0';
-          splashScreen.style.visibility = 'hidden';
-          mainContent.style.display = 'block';
-          setTimeout(() => { mainContent.style.opacity = '1'; }, 50);
-        }, 500);
-      }, 500);
+          orochiD.classList.remove('is-clicked');
+          orochiE.classList.add('is-clicked');
+
+          // さらに0.5秒後(Eを見せてから)、画面遷移
+          setTimeout(() => {
+            splashScreen.style.opacity = '0';
+            splashScreen.style.visibility = 'hidden';
+            mainContent.style.display = 'block';
+
+            // ↓↓↓ この行を追加 ↓↓↓
+            window.scrollTo({ top: 100, behavior: 'smooth' });
+
+            setTimeout(() => { mainContent.style.opacity = '1'; }, 50);
+          }, 500);
+        }, 400);
+      }, 400);
 
     }, { once: true });
   }

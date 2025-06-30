@@ -66,7 +66,8 @@ body {
   animation-delay: 1s;
 }
 .is-clicked#orochi-pose-c,
-.is-clicked#orochi-pose-d {
+.is-clicked#orochi-pose-d,
+.is-clicked#orochi-pose-e {
   opacity: 1;
 }
 .gallery-section {
@@ -121,3 +122,97 @@ body {
 #modal-image { max-width: 100%; max-height: 200px; margin-bottom: 20px; }
 #omikuji-result { font-family: 'Shippori Mincho', serif; font-size: 1.2rem; }
 .close-modal { position: absolute; top: 10px; right: 15px; font-size: 28px; cursor: pointer; }
+
+/* --- メインコンテンツのセクション共通スタイル --- */
+.main-section {
+  padding: 80px 20px;
+  border-bottom: 1px solid #e8e8e8; /* セクション間の薄い区切り線 */
+}
+
+/* 最後のセクションの区切り線は不要なので消す */
+.main-section:last-of-type {
+  border-bottom: none;
+}
+
+.section-container {
+  max-width: 980px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.section-title {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 50px;
+  color: #2F4858; /* フッターの濃い緑色と合わせる */
+}
+
+.main-section p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #555;
+}
+
+/* --- 各セクションの個別スタイル --- */
+
+/* キービジュアルエリア */
+#key-visual {
+  background-color: #fff; /* 背景を白にして最初のセクションを際立たせる */
+}
+
+#key-visual .section-title {
+  font-size: 2.8rem;
+}
+
+/* 動画とミームギャラリーの背景色 */
+#short-videos, #meme-gallery {
+  background-color: #f9f9f9; /* 背景色をわずかに変えて区別 */
+}
+
+/* Coming Soonエリア */
+.coming-soon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+.coming-soon-card {
+  background: #fff;
+  padding: 50px 20px;
+  border-radius: 16px;
+  border: 1px solid #e5e5e5;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #aaa;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+/* --- ギャラリーカード内の情報スタイル --- */
+.card-info {
+  padding: 20px;
+  text-align: left;
+}
+
+.card-title {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 1.2rem;
+  margin: 0 0 8px 0;
+  color: #333;
+}
+
+.card-description {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+  min-height: 50px; /* 説明文の長さに差があっても高さが揃うように */
+}
+
+/* アイコンの位置を右端に調整 */
+.gallery-icons {
+  justify-content: flex-end; /* アイコンを右寄せにする */
+  border-top: 1px solid #f0f0f0;
+  padding-top: 16px;
+}
