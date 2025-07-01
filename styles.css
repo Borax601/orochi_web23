@@ -86,11 +86,20 @@ body {
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.06);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
+.card-image-container {
+  aspect-ratio: 1 / 1; /* ★縦横比を1:1（正方形）に固定 */
+  background-color: #f0f2f5; /* 画像の背景色を薄いグレーに */
+}
+
 .gallery-card img {
   width: 100%;
-  display: block;
+  height: 100%;
+  object-fit: contain; /* ★画像を切り取らず、エリア内に収める */
 }
+
 .gallery-icons {
   display: flex;
   gap: 16px;
@@ -193,6 +202,9 @@ body {
 .card-info {
   padding: 20px;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .card-title {
@@ -212,6 +224,7 @@ body {
 
 /* アイコンの位置を右端に調整 */
 .gallery-icons {
+  margin-top: auto;
   justify-content: flex-end; /* アイコンを右寄せにする */
   border-top: 1px solid #f0f0f0;
   padding-top: 16px;
