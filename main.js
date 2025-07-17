@@ -1,110 +1,126 @@
-window.addEventListener('DOMContentLoaded', () => {
-  // --- スプラッシュ画面のインタラクティブ・アニメーション制御 ---
-  const splashScreen = document.getElementById('splash-screen');
-  const mainContent = document.getElementById('main-content');
+// ページの全てのコンテンツが読み込まれてから実行する
+document.addEventListener('DOMContentLoaded', function() {
+  setupHeroAnimation();
+  initializeApp();
+});
+
+// ヒーローアニメーションをセットアップする関数
+function setupHeroAnimation() {
   const orochiA = document.getElementById('orochi-pose-a');
   const orochiB = document.getElementById('orochi-pose-b');
-  const orochiC = document.getElementById('orochi-pose-c');
-  const orochiD = document.getElementById('orochi-pose-d');
-const orochiE = document.getElementById('orochi-pose-e');
-
   if (orochiA && orochiB) {
     orochiA.classList.add('is-looping');
     orochiB.classList.add('is-looping');
   }
+}
 
-  if (splashScreen && mainContent && orochiC && orochiD && orochiE) {
-    splashScreen.addEventListener('click', () => {
-      // 待機ループを停止
-      orochiA.classList.remove('is-looping');
-      orochiB.classList.remove('is-looping');
-      orochiA.style.opacity = '0';
-      orochiB.style.opacity = '0';
+// アプリケーションを初期化するメインの関数
+async function initializeApp() {
+  try {
+    const jsonPath = 'オロチポートフォリオ文字データ/works.json';
+    const worksData = await fetchWorksData(jsonPath);
+
+    if (document.getElementById('digest-gallery-grid')) {
+      renderGallery(worksData.slice(0, 6), '#digest-gallery-grid');
+    }
+    if (document.getElementById('full-gallery-grid')) {
+      renderGallery(worksData, '#full-gallery-grid');
+      setupFilter(worksData);
+    }
+    setupLikeButtons();
+  } catch (error) {
+    console.error('初期化エラー:', error);
+  }
+}
+
+// JSONファイルを読み込む関数
+async function fetchWorksData(jsonPath) {
+  const response = await fetch(jsonPath);
+  if (!response.ok) {
+    throw new Error(`JSONファイルの読み込みに失敗: ${jsonPath}`);
+  }
+  return response.json();
+}
+
+// 作品データを基に、HTMLを組み立ててページに表示する関数
+function renderGallery(works, containerSelector) {
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
+
+  const galleryHtml = works.map(work => {
+    const yearMonth = String(work.date).substring(0, 6);
+    const imagePath = `assets/gallery_${yearMonth}/${work.image_filename}`;
+    
+    return `
+      <div class="gallery-card" data-month="${work.month}">
+        <img src="${imagePath}" alt="${work.title}" class="card-image" loading="lazy">
+        <div class="card-info">
+          <h3 class="card-title">${work.title}</h3>
+          <p class="card-description">${work.description}</p>
+          <div class="gallery-icons">
+            <span class="like-btn">♡ 0</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  container.innerHTML = galleryHtml;
+}
+
+// 「いいね」ボタンの機能をセットアップする関数
+function setupLikeButtons() {
+  const likeButtons = document.querySelectorAll('.like-btn');
+  likeButtons.forEach(button => {
+    const card = button.closest('.gallery-card');
+    if (!card) return;
+    const imageElement = card.querySelector('.card-image');
+    if (!imageElement) return;
+    
+    const imageSrc = imageElement.src;
+    const likeId = 'like-' + imageSrc;
+    
+    if (button.dataset.listenerAttached) return;
+
+    const savedLikes = localStorage.getItem(likeId);
+    if (savedLikes) {
+      button.innerText = '♥ ' + savedLikes;
+      button.classList.add('is-liked');
+    }
+
+    button.addEventListener('click', function() {
+      if (button.classList.contains('is-liked')) return;
+      button.classList.add('is-liked');
       
-      // ポーズCを表示
-      orochiC.classList.add('is-clicked');
+      let currentLikes = parseInt(button.innerText.replace('♡ ', '').replace('♥ ', ''));
+      let newLikes = currentLikes + 1;
+      
+      button.innerText = '♥ ' + newLikes;
+      localStorage.setItem(likeId, newLikes);
 
-      // 0.4秒後にCを消してDを表示
-      setTimeout(() => {
-        orochiC.classList.remove('is-clicked');
-        orochiD.classList.add('is-clicked');
+      button.classList.add('is-popping');
+      setTimeout(() => button.classList.remove('is-popping'), 300);
+    });
+    
+    button.dataset.listenerAttached = 'true';
+  });
+}
 
-        // さらに0.4秒後にDを消してEを表示
-        setTimeout(() => {
-          orochiD.classList.remove('is-clicked');
-          orochiE.classList.add('is-clicked');
+// 月別フィルター機能をセットアップする関数
+function setupFilter(works) {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const targetMonth = String(button.dataset.month);
+      
+      filterButtons.forEach(btn => btn.classList.remove('is-active'));
+      button.classList.add('is-active');
 
-          // さらに0.5秒後(Eを見せてから)、画面遷移
-          setTimeout(() => {
-            splashScreen.style.opacity = '0';
-            splashScreen.style.visibility = 'hidden';
-            mainContent.style.display = 'block';
-
-            // ↓↓↓ この行を追加 ↓↓↓
-            window.scrollTo({ top: 100, behavior: 'smooth' });
-
-            setTimeout(() => { mainContent.style.opacity = '1'; }, 50);
-          }, 500);
-        }, 400);
-      }, 400);
-
-    }, { once: true });
-  }
-
-  // --- いいね機能 ---
-  document.querySelectorAll('.like-btn').forEach(btn => {
-    btn.addEventListener('click', function(event) {
-      event.stopPropagation(); // クリックイベントが親要素に伝播しないように
-      const liked = this.getAttribute('data-liked') === 'true';
-      const countSpan = this.querySelector('.like-count');
-      let count = parseInt(countSpan.textContent, 10);
-
-      if (!liked) {
-        this.innerHTML = '❤️ <span class="like-count">' + (count + 1) + '</span>';
-        this.setAttribute('data-liked', 'true');
-      } else {
-        this.innerHTML = '♡ <span class="like-count">' + (count - 1) + '</span>';
-        this.setAttribute('data-liked', 'false');
-      }
+      const filteredWorks = (targetMonth === 'all') 
+        ? works 
+        : works.filter(work => String(work.month) === targetMonth);
+      
+      renderGallery(filteredWorks, '#full-gallery-grid');
+      setupLikeButtons(); 
     });
   });
-
-  // --- おみくじ機能 ---
-  const omikujiList = [
-    '【大吉】最高の運気！このオロチが万事うまくいくよう導いてくれるでしょう！',
-    '【中吉】良い兆候。小さな幸せが積み重なる予感。油断は禁物です。',
-    '【小吉】ささやかな幸運。なくし物が見つかるかも？',
-    '【吉】平穏な一日。このオロチを眺めて心を落ち着かせましょう。',
-    '【末吉】今は雌伏の時。しかし、未来には明るい兆しが見えます。',
-    '【凶】少し注意が必要な日。でも、このオロチがお守り代わりになってくれるはず！'
-  ];
-  const modalOverlay = document.getElementById('modal-overlay');
-  const omikujiModal = document.getElementById('omikuji-modal');
-  const modalImage = document.getElementById('modal-image');
-  const omikujiResult = document.getElementById('omikuji-result');
-  const closeModalBtn = document.querySelector('.close-modal');
-
-  document.querySelectorAll('.omikuji-btn').forEach(btn => {
-    btn.addEventListener('click', function(event) {
-      event.stopPropagation(); // クリックイベントが親要素に伝播しないように
-      const cardImage = this.closest('.gallery-card').querySelector('img').src;
-      modalImage.src = cardImage;
-      const result = omikujiList[Math.floor(Math.random() * omikujiList.length)];
-      omikujiResult.textContent = result;
-      modalOverlay.style.display = 'block';
-      omikujiModal.style.display = 'block';
-    });
-  });
-
-  function closeModal() {
-    modalOverlay.style.display = 'none';
-    omikujiModal.style.display = 'none';
-  }
-  
-  if(closeModalBtn) {
-    closeModalBtn.addEventListener('click', closeModal);
-  }
-  if(modalOverlay) {
-    modalOverlay.addEventListener('click', closeModal);
-  }
-});
+}

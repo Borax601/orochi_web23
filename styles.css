@@ -1,37 +1,37 @@
+/* --- 基本スタイル --- */
+:root {
+  --font-base: 'Noto Sans JP', sans-serif;
+  --font-title: 'Shippori Mincho', serif;
+  --color-background: #FFFFFF;
+  --color-text: #333333;
+}
 body {
   margin: 0;
-  font-family: 'Noto Sans JP', sans-serif;
-  background: #F1FAEE;
+  font-family: var(--font-base);
+  background-color: var(--color-background);
+  color: var(--color-text);
 }
-#splash-screen {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(to bottom, #594589, #EFEFB9);
+/* --- ヒーローセクション（キービジュアル）のスタイル --- */
+.hero-section {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: opacity 0.8s ease-out, visibility 0.8s;
-  z-index: 200;
-  cursor: pointer;
-}
-#main-content {
-  display: none;
-  opacity: 0;
-  transition: opacity 1s ease-in;
-}
-.hero-container {
-  max-width: 960px;
-  margin: 0 auto;
-  text-align: center;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  background-color: #f4f4f4;
 }
 .hero-image-container {
   position: relative;
-  max-width: 300px;
-  margin: 0 auto 30px;
+  width: 90%;
+  max-width: 450px;
 }
 .hero-torii, .hero-orochi {
   position: absolute;
-  top: 0; left: 0; width: 100%; height: auto;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
 }
 .hero-torii {
   position: relative;
@@ -39,20 +39,9 @@ body {
 }
 .hero-orochi {
   z-index: 2;
-}
-.hero-text h1 {
-  font-family: 'Shippori Mincho', serif;
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-  color: #fff;
-}
-.hero-text p.scroll-guide {
-  font-size: 1.1rem;
-  color: #fff;
-}
-.hero-orochi {
   opacity: 0;
 }
+/* --- ループアニメーション --- */
 @keyframes loop-ab {
   0%, 49.9% { opacity: 1; }
   50%, 100% { opacity: 0; }
@@ -65,167 +54,188 @@ body {
   animation: loop-ab 2s infinite;
   animation-delay: 1s;
 }
-.is-clicked#orochi-pose-c,
-.is-clicked#orochi-pose-d,
-.is-clicked#orochi-pose-e {
-  opacity: 1;
+/* --- コンテンツセクションのスタイル --- */
+.content-section {
+  padding: 80px 20px;
+  background-color: #FFFFFF;
+  position: relative;
+  z-index: 10;
 }
-.gallery-section {
-  padding: 48px 20px;
+.section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.section-title {
+  font-family: var(--font-title);
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 50px;
+}
+/* --- ギャラリーセクションのスタイル --- */
+.horizontal-scroll-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 20px;
 }
 .gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 32px;
-  max-width: 980px;
-  margin: 0 auto;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    padding: 20px;
+    width: max-content;
 }
 .gallery-card {
-  background: #fff;
-  border: 1px solid #E5E5E5;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+    width: 300px;
+    flex-shrink: 0;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
 }
-.card-image-container {
-  aspect-ratio: 1 / 1; /* ★縦横比を1:1（正方形）に固定 */
-  background-color: #f0f2f5; /* 画像の背景色を薄いグレーに */
+.card-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
 }
-
-.gallery-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* ★画像を切り取らず、エリア内に収める */
-}
-
-.gallery-icons {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  padding: 16px;
-  font-size: 24px;
-}
-.like-btn, .omikuji-btn { cursor: pointer; }
-.footer {
-  background: #2F4858;
-  color: #fff;
-  padding: 32px 20px;
-  text-align: center;
-}
-.copyright {
-  font-size: 0.95rem;
-  color: #FFD700;
-}
-#modal-overlay {
-  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); z-index: 300;
-}
-#omikuji-modal {
-  display: none; position: fixed; top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white; padding: 30px; border-radius: 12px;
-  width: 90%; max-width: 380px; z-index: 301; text-align: center;
-}
-#modal-image { max-width: 100%; max-height: 200px; margin-bottom: 20px; }
-#omikuji-result { font-family: 'Shippori Mincho', serif; font-size: 1.2rem; }
-.close-modal { position: absolute; top: 10px; right: 15px; font-size: 28px; cursor: pointer; }
-
-/* --- メインコンテンツのセクション共通スタイル --- */
-.main-section {
-  padding: 80px 20px;
-  border-bottom: 1px solid #e8e8e8; /* セクション間の薄い区切り線 */
-}
-
-/* 最後のセクションの区切り線は不要なので消す */
-.main-section:last-of-type {
-  border-bottom: none;
-}
-
-.section-container {
-  max-width: 980px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.section-title {
-  font-family: 'Shippori Mincho', serif;
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-top: 0;
-  margin-bottom: 50px;
-  color: #2F4858; /* フッターの濃い緑色と合わせる */
-}
-
-.main-section p {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #555;
-}
-
-/* --- 各セクションの個別スタイル --- */
-
-/* キービジュアルエリア */
-#key-visual {
-  background-color: #fff; /* 背景を白にして最初のセクションを際立たせる */
-}
-
-#key-visual .section-title {
-  font-size: 2.8rem;
-}
-
-/* 動画とミームギャラリーの背景色 */
-#short-videos, #meme-gallery {
-  background-color: #f9f9f9; /* 背景色をわずかに変えて区別 */
-}
-
-/* Coming Soonエリア */
-.coming-soon-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-  margin-top: 40px;
-}
-.coming-soon-card {
-  background: #fff;
-  padding: 50px 20px;
-  border-radius: 16px;
-  border: 1px solid #e5e5e5;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #aaa;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-}
-
-/* --- ギャラリーカード内の情報スタイル --- */
 .card-info {
-  padding: 20px;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
-
 .card-title {
-  font-family: 'Shippori Mincho', serif;
-  font-size: 1.2rem;
-  margin: 0 0 8px 0;
-  color: #333;
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    margin: 0 0 10px 0;
 }
-
 .card-description {
-  font-size: 0.9rem;
-  color: #666;
-  line-height: 1.6;
-  margin: 0 0 20px 0;
-  min-height: 50px; /* 説明文の長さに差があっても高さが揃うように */
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+    color: #666;
 }
-
-/* アイコンの位置を右端に調整 */
+.view-all-container {
+    text-align: center;
+    margin-top: 40px;
+}
+.view-all-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: var(--color-text);
+    color: var(--color-background);
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: opacity 0.3s;
+}
+.view-all-button:hover {
+    opacity: 0.8;
+}
+/* --- 微調整：ギャラリーアイコン --- */
 .gallery-icons {
-  margin-top: auto;
-  justify-content: flex-end; /* アイコンを右寄せにする */
-  border-top: 1px solid #f0f0f0;
-  padding-top: 16px;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+.like-btn {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #ff8a80;
+    transition: transform 0.2s, color 0.2s;
+}
+.like-btn:hover {
+    transform: scale(1.2);
+}
+.like-btn.is-liked {
+    color: #d32f2f;
+    cursor: default;
+}
+/* --- 微調整：スクロールバーのデザイン --- */
+.horizontal-scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+.horizontal-scroll-container::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 4px;
+}
+.horizontal-scroll-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+.horizontal-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+/* --- 全作品一覧ページ用のスタイル --- */
+.page-header {
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.back-to-home {
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: bold;
+}
+.back-to-home:hover {
+    text-decoration: underline;
+}
+.section-description {
+    text-align: center;
+    max-width: 600px;
+    margin: -30px auto 50px;
+    color: #666;
+    line-height: 1.7;
+}
+.full-page-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+.footer {
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 60px;
+    color: #999;
+    border-top: 1px solid #e0e0e0;
+}
+.filter-bar {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+.filter-btn {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+.filter-btn:hover {
+  background-color: #f0f0f0;
+}
+.filter-btn.is-active {
+  background-color: var(--color-text);
+  color: #fff;
+  border-color: var(--color-text);
+}
+/* --- いいねボタンのポップアニメーション --- */
+@keyframes pop-animation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+.like-btn.is-popping {
+  animation: pop-animation 0.3s ease-in-out;
 }
