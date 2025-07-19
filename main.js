@@ -17,7 +17,7 @@ function setupHeroAnimation() {
 // アプリケーションを初期化するメインの関数
 async function initializeApp() {
   try {
-    const jsonPath = 'オロチポートフォリオ文字データ/works.json';
+    const jsonPath = 'data/works.json';
     const worksData = await fetchWorksData(jsonPath);
 
     if (document.getElementById('digest-gallery-grid')) {
