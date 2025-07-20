@@ -20,8 +20,14 @@ function setupHeroAnimation() {
   const loopDelay = 1200; // フェード完了後、次ループまでの待機
 
   const hideAll = () => {
-    frames.forEach(f => f.style.opacity = 0);
-    finale.style.opacity = 0;
+    frames.forEach(f => {
+      if (f) {
+        f.style.opacity = 0;
+      }
+    });
+    if (finale) {
+      finale.style.opacity = 0;
+    }
   };
 
   const playLoop = () => {
@@ -73,7 +79,7 @@ async function initializeApp() {
     }
     setupLikeButtons();
   } catch (error) {
-    console.error('初期化エラー:', error);
+    console.error('Error initializing app:', error);
   }
 }
 
