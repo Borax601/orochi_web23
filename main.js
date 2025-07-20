@@ -6,18 +6,62 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ヒーローアニメーションをセットアップする関数
 function setupHeroAnimation() {
-  const orochiA = document.getElementById('orochi-pose-a');
-  const orochiB = document.getElementById('orochi-pose-b');
-  if (orochiA && orochiB) {
-    orochiA.classList.add('is-looping');
-    orochiB.classList.add('is-looping');
-  }
+  const frames = [
+    document.getElementById('orochi-pose-a'),
+    document.getElementById('orochi-pose-b'),
+    document.getElementById('orochi-pose-c'),
+    document.getElementById('orochi-pose-d')
+  ];
+  const finale = document.getElementById('orochi-pose-e');
+
+  let idx = 0;
+  const frameMs   = 1000;  // 1 second per frame
+  const pauseMs   = 500;  // d のあと 0.5 秒タメ
+  const loopDelay = 1200; // フェード完了後、次ループまでの待機
+
+  const hideAll = () => {
+    frames.forEach(f => f.style.opacity = 0);
+    finale.style.opacity = 0;
+  };
+
+  const playLoop = () => {
+    hideAll();
+    idx = 0;
+
+    /* 1️⃣ コマ送り */
+    const frameTimer = setInterval(() => {
+      hideAll();
+      frames[idx].style.opacity = 1;
+      frames[idx].style.zIndex = 2; // Ensure it's on top
+      idx++;
+
+      if (idx === frames.length) {
+        clearInterval(frameTimer);
+
+        /* 2️⃣ d → 少し溜め → フェードアウト */
+        setTimeout(() => {
+          hideAll();
+          finale.style.opacity = 1;
+          finale.classList.add('fade-out');
+
+          /* 3️⃣ 次ループの準備 */
+          setTimeout(() => {
+            finale.classList.remove('fade-out');
+            playLoop();               // 再帰で次周へ
+          }, loopDelay);
+
+        }, frameMs); // Changed pauseMs to frameMs
+      }
+    }, frameMs);
+  };
+
+  playLoop();
 }
 
 // アプリケーションを初期化するメインの関数
 async function initializeApp() {
   try {
-    const jsonPath = 'data/works.json';
+    const jsonPath = 'オロチポートフォリオ文字データ/works.json';
     const worksData = await fetchWorksData(jsonPath);
 
     if (document.getElementById('digest-gallery-grid')) {

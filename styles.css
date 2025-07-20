@@ -16,10 +16,18 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 600px;
   position: sticky;
   top: 0;
-  background-color: #f4f4f4;
+  position: relative;
+  background:
+    /* ほんのり白ベールで柄を柔らかく（任意） */
+    linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)),
+    /* タイル表示 */
+    url('assets/wagara-tile.png') repeat;
+  background-size:
+    100% 100%,    /* グラデーションは全面 */
+    256px 256px;  /* タイルの大きさ */
 }
 .hero-image-container {
   position: relative;
@@ -38,8 +46,13 @@ body {
   z-index: 1;
 }
 .hero-orochi {
-  z-index: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
   opacity: 0;
+  transition: opacity 0.5s ease-in-out; /* Smooth transition */
 }
 /* --- ループアニメーション --- */
 @keyframes loop-ab {
@@ -57,7 +70,7 @@ body {
 /* --- コンテンツセクションのスタイル --- */
 .content-section {
   padding: 80px 20px;
-  background-color: #FFFFFF;
+  background-color: transparent;   /* 上書き */
   position: relative;
   z-index: 10;
 }
@@ -66,11 +79,16 @@ body {
     margin: 0 auto;
     padding: 0 20px;
 }
-.section-title {
+h2.section-title {
   font-family: var(--font-title);
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 50px;
+  background-color: #7d63ce; /* 新しい指定された色 */
+  padding: 15px;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
 }
 /* --- ギャラリーセクションのスタイル --- */
 .horizontal-scroll-container {
@@ -86,15 +104,14 @@ body {
     width: max-content;
 }
 .gallery-card {
-    width: 300px;
-    flex-shrink: 0;
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    display: flex;
-    flex-direction: column;
+  background-color: #7d63ce;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: #ffffff; /* 文字色を白に変更 */
+}
+.gallery-card h3, .gallery-card p {
+  color: #ffffff; /* ヘッダーと段落の文字色も白に */
 }
 .card-image {
     width: 100%;
@@ -174,6 +191,7 @@ body {
 .page-header {
     padding: 20px;
     border-bottom: 1px solid #e0e0e0;
+    height: 100px; /* Set base height for PC */
 }
 .header-container {
     max-width: 1200px;
@@ -230,6 +248,30 @@ body {
   color: #fff;
   border-color: var(--color-text);
 }
+/* --------------------------------------------------
+   Portfolio section – wagara wallpaper
+-------------------------------------------------- */
+.content-section{
+  background-color: transparent;   /* 上書き */
+}
+#portfolio {
+  background-color: #4B0082; /* 鳥の画像の後ろの濃い山の色 */
+  padding: 20px;
+  background:
+    linear-gradient(rgba(255,255,255,.30), rgba(255,255,255,.30)),
+    url('./assets/wagara-bg.png') center / cover no-repeat;
+}
+/* --------------------------------------------------
+   Main area – wagara wallpaper
+-------------------------------------------------- */
+#main-content{
+  /* 相対パスは CSS ファイルの場所基準 */
+  background: url('./assets/wagara-bg.png') center / cover no-repeat !important;
+  /*   ↑↑↑ 必ず上書きしたいので !important を付ける */
+  /*   もしタイル表示にしたい場合は
+       background-repeat: repeat;
+       background-size: 256px 256px;   などに変更 */
+}
 /* --- いいねボタンのポップアニメーション --- */
 @keyframes pop-animation {
   0% { transform: scale(1); }
@@ -238,4 +280,12 @@ body {
 }
 .like-btn.is-popping {
   animation: pop-animation 0.3s ease-in-out;
+}
+/* --- オロチのアニメーション --- */
+@keyframes orochi-fade-out {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+.fade-out {
+  animation: orochi-fade-out 1.2s ease-out forwards; /* ←ゆっくり消える */
 }
