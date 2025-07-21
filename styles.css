@@ -299,3 +299,15 @@ h2.section-title {
 .fade-out {
   animation: orochi-fade-out 1.2s ease-out forwards; /* ←ゆっくり消える */
 }
+/* --- gallery.html 背景 --- */
+#full-gallery.content-section {
+  background:
+    /* 文字の可読性担保のため、半透明の白を重ねる */
+    linear-gradient(rgba(255, 255, 255, .7), rgba(255, 255, 255, .7)),
+    /* 背景画像を指定し、スクロールに追従しないよう固定する */
+    url('./assets/wagara-bg.png') center / cover no-repeat fixed;
+
+  /* 上下の余白を調整 */
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
