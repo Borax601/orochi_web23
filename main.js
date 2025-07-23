@@ -160,13 +160,31 @@ function setupLikeButtons() {
 
 // 月別フィルター機能をセットアップする関数
 function setupFilter(works) {
+  const filterBar = document.querySelector('.filter-bar');
+  if (!filterBar) return;
+
+  // 1. データからユニークな月のリストを作成 (例: [2, 3, 6, 7])
+  const uniqueMonths = [...new Set(works.map(work => work.month))].sort((a, b) => a - b);
+
+  // 2. 月別ボタンのHTMLを生成
+  const monthButtonsHtml = uniqueMonths.map(month => `
+    <button class="filter-btn" data-month="${month}">${month}月</button>
+  `).join('');
+
+  // 3. 「全て表示」ボタンと月別ボタンをコンテナに挿入
+  filterBar.innerHTML = `
+    <button class="filter-btn is-active" data-month="all">全て表示</button>
+    ${monthButtonsHtml}
+  `;
+
+  // 4. 各ボタンにクリックイベントを設定
   const filterButtons = document.querySelectorAll('.filter-btn');
   filterButtons.forEach(button => {
     button.addEventListener('click', function() {
-      const targetMonth = String(button.dataset.month);
+      const targetMonth = this.dataset.month;
       
       filterButtons.forEach(btn => btn.classList.remove('is-active'));
-      button.classList.add('is-active');
+      this.classList.add('is-active');
 
       const filteredWorks = (targetMonth === 'all') 
         ? works 
