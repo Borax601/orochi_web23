@@ -70,12 +70,15 @@ async function initializeApp() {
     const jsonPath = 'オロチポートフォリオ文字データ/works.json';
     const worksData = await fetchWorksData(jsonPath);
 
+    // ★「イラスト」カテゴリーのみにフィルタリング
+    const illustrationWorks = worksData.filter(work => work.category === 'イラスト');
+
     if (document.getElementById('digest-gallery-grid')) {
-      renderGallery(worksData.slice(0, 6), '#digest-gallery-grid');
+      renderGallery(illustrationWorks.slice(0, 6), '#digest-gallery-grid');
     }
     if (document.getElementById('full-gallery-grid')) {
-      renderGallery(worksData, '#full-gallery-grid');
-      setupFilter(worksData);
+      renderGallery(illustrationWorks, '#full-gallery-grid');
+      setupFilter(illustrationWorks);
     }
     setupLikeButtons();
   } catch (error) {
