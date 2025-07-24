@@ -69,17 +69,29 @@ async function initializeApp() {
   try {
     const jsonPath = 'オロチポートフォリオ文字データ/works.json';
     const worksData = await fetchWorksData(jsonPath);
+    const pageId = document.body.id;
+    let worksToDisplay = [];
 
-    // ★「イラスト」カテゴリーのみにフィルタリング
-    const illustrationWorks = worksData.filter(work => work.category === 'イラスト');
-
-    if (document.getElementById('digest-gallery-grid')) {
-      renderGallery(illustrationWorks.slice(0, 6), '#digest-gallery-grid');
+    // ページのIDに基づいて表示する作品を決定
+    if (pageId === 'page-gallery') {
+      worksToDisplay = worksData.filter(work => work.category === 'イラスト');
+    } else if (pageId === 'page-ai-gallery') {
+      worksToDisplay = worksData.filter(work => work.category === 'AI');
+    } else if (document.getElementById('digest-gallery-grid')) { // ホームページの場合
+        worksToDisplay = worksData.filter(work => work.category === 'イラスト');
     }
+
+    // 作品一覧ページ（ギャラリーまたはAI）のレンダリング
     if (document.getElementById('full-gallery-grid')) {
-      renderGallery(illustrationWorks, '#full-gallery-grid');
-      setupFilter(illustrationWorks);
+      renderGallery(worksToDisplay, '#full-gallery-grid');
+      setupFilter(worksToDisplay); // フィルター機能の呼び出し
     }
+    
+    // ホームページのダイジェストをレンダリング
+    if (document.getElementById('digest-gallery-grid')) {
+      renderGallery(worksToDisplay.slice(0, 6), '#digest-gallery-grid');
+    }
+
     setupLikeButtons();
   } catch (error) {
     console.error('Error initializing app:', error);
