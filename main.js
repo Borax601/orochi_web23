@@ -77,8 +77,11 @@ async function initializeApp() {
       worksToDisplay = worksData.filter(work => work.category === 'イラスト');
     } else if (pageId === 'page-ai-gallery') {
       worksToDisplay = worksData.filter(work => work.category === 'AI');
-    } else if (document.getElementById('digest-gallery-grid')) { // ホームページの場合
-        worksToDisplay = worksData.filter(work => work.category === 'イラスト');
+    } else if (document.getElementById('digest-gallery-grid')) { // ホーム（ダイジェスト）
+      // イラストのみを最新順で
+      worksToDisplay = worksData
+        .filter(w => w.category === 'イラスト' && w.date)   // AIは除外、date必須
+        .sort((a, b) => Number(b.date) - Number(a.date));   // YYYYMMDD を数値比較
     }
 
     // 作品一覧ページ（ギャラリーまたはAI）のレンダリング
@@ -89,7 +92,7 @@ async function initializeApp() {
     
     // ホームページのダイジェストをレンダリング
     if (document.getElementById('digest-gallery-grid')) {
-      renderGallery(worksToDisplay.slice(0, 6), '#digest-gallery-grid');
+      renderGallery(worksToDisplay.slice(0, 10), '#digest-gallery-grid');
     }
 
     setupLikeButtons();
