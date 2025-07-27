@@ -8,8 +8,39 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Shippori+Mincho:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .global-header {
+            background-color: purple;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .site-title {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
+    <header class="global-header">
+        <div class="header-container">
+            <a href="index.html" class="site-title">開運オロチ神社</a>
+            <button class="hamburger-menu" aria-label="メニューを開く">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="global-nav">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="gallery.html">GALLERY</a></li>
+                    <li><a href="#">SHOP</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
     <header id="key-visual" class="hero-section">
         <div class="hero-image-container">
             <!-- Orochi frame sequence -->
@@ -23,6 +54,12 @@
             <img src="assets/torii.svg" class="hero-torii" alt="鳥居" />
         </div>
     </header>
+    <section class="news-section">
+        <div class="news-container">
+            <p>ようこそ、開運オロチ神社へ</p>
+            <p>ここは、作品をゆっくり味わえるデジタルの美術館であり、みんなで楽しめるオンラインの神社。見る、好きと言う、また来る――その積み重ねが世界を少しずつ明るくし、あなたの運気にも追い風を連れてきます。これからおみくじなどの参加コンテンツも増やしていきます。あなたの一歩が、この場所にご利益を灯します。</p>
+        </div>
+    </section>
     <main id="main-content">
         <section class="content-section" id="portfolio">
             <h2 class="section-title">今月の作品</h2>

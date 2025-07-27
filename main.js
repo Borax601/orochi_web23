@@ -93,6 +93,7 @@ async function initializeApp() {
     }
 
     setupLikeButtons();
+    setupHamburgerMenu();
   } catch (error) {
     console.error('Error initializing app:', error);
   }
@@ -205,5 +206,13 @@ function setupFilter(works) {
       renderGallery(filteredWorks, '#full-gallery-grid');
       setupLikeButtons(); 
     });
+  });
+}
+
+// ハンバーガーメニューの機能をセットアップする関数
+function setupHamburgerMenu() {
+  document.querySelector('.hamburger-menu').addEventListener('click', function() {
+    this.classList.toggle('active');
+    document.querySelector('.global-nav').classList.toggle('active');
   });
 }
