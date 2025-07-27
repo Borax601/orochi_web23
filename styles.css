@@ -266,23 +266,19 @@ h2.section-title {
   background-color: transparent;   /* 上書き */
 }
 #portfolio {
-  background-color: #4B0082; /* 鳥の画像の後ろの濃い山の色 */
-  padding: 20px;
+  /* 背景は main-content で一括適用するため透明化 */
+  background: transparent;
+  padding: 20px;          /* 余白は維持 */
+}
+#main-content{
   background:
-    linear-gradient(rgba(255,255,255,.30), rgba(255,255,255,.30)),
-    url('./assets/wagara-bg.png') center / cover no-repeat;
+    linear-gradient(rgba(255,255,255,.80), rgba(255,255,255,.80)), /* 白ベール */
+    url('./assets/wagara-bg.png') center / cover no-repeat !important;
+  /* 必要に応じて強さを .70～.85 で微調整 */
 }
 /* --------------------------------------------------
    Main area – wagara wallpaper
 -------------------------------------------------- */
-#main-content{
-  /* 相対パスは CSS ファイルの場所基準 */
-  background: url('./assets/wagara-bg.png') center / cover no-repeat !important;
-  /*   ↑↑↑ 必ず上書きしたいので !important を付ける */
-  /*   もしタイル表示にしたい場合は
-       background-repeat: repeat;
-       background-size: 256px 256px;   などに変更 */
-}
 /* --- いいねボタンのポップアニメーション --- */
 @keyframes pop-animation {
   0% { transform: scale(1); }
@@ -619,4 +615,77 @@ Global Header
 /* フィルタバーとグリッドとの距離調整（任意だが推奨） */
 #page-gallery nav.filter-bar{
   margin: 0 0 36px 0;
+}
+
+/* ==== AIコーナー（時すでにオロチ） ===================== */
+#ai-corner {
+  margin-top: 72px;              /* 上の「全ての作品を見る」と余白をとる */
+}
+
+/* Art Shrine と 時すでにオロチ のタイトルを共通バッジに統一 */
+#portfolio h2.section-title,
+#ai-corner h2.section-title{
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 2.8vw, 2.0rem); /* Art Shrine と同じサイズ感 */
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+
+  color: #fff;
+  background: #7d63ce;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 6px rgba(0,0,0,.10);
+
+  width: fit-content;
+  margin: 0 0 24px;   /* 左寄せ・下だけ余白 */
+  text-align: left;
+}
+
+/* モバイルは中央寄せに倒す（任意） */
+@media (max-width: 768px){
+  #portfolio h2.section-title,
+  #ai-corner h2.section-title{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+}
+
+#ai-corner .section-description {
+  max-width: 72ch;               /* 読みやすい行幅 */
+  margin: 0 auto 64px;           /* 中央寄せ & 下に十分な余白 */
+  text-align: center;            /* トップページは中央に揃えて品よく */
+  line-height: 1.9;
+  color: #555;                   /* 既存より一段柔らかいトーン */
+}
+
+/* ===== HOME: 奉納作品 説明文 ===== */
+#portfolio .section-description{
+  max-width: 72ch;      /* 可読行幅 */
+  margin: 0 0 28px 0;   /* 下に余白 */
+  font-size: 1.02rem;
+  line-height: 1.9;
+  color: #555;
+  text-align: left;     /* 左寄せ */
+}
+
+/* ==== AIコーナー（時すでにオロチ） ==== */
+#ai-corner {
+  margin-top: 72px;
+}
+
+/* 見出しは他と同サイズ。整列と余白のみ調整 */
+#ai-corner .section-title{
+  text-align: left;     /* 中央 → 左 */
+  margin: 0 0 16px 0;   /* 下だけ余白 */
+}
+
+/* 説明文：左寄せに統一（中央指定を撤回） */
+#ai-corner .section-description{
+  max-width: 72ch;
+  margin: 0 0 48px 0;
+  text-align: left;     /* 中央 → 左 */
+  line-height: 1.9;
+  color: #555;
 }

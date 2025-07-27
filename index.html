@@ -8,20 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Shippori+Mincho:wght@700&display=swap" rel="stylesheet">
-    <style>
-        .global-header {
-            background-color: purple;
-        }
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .site-title {
-            color: white;
-            text-decoration: none;
-        }
-    </style>
 </head>
 <body>
     <header class="global-header">
@@ -62,11 +48,24 @@
     </section>
     <main id="main-content">
         <section class="content-section" id="portfolio">
-            <h2 class="section-title">Art Shrine</h2>
+            <h2 class="section-title">奉納作品</h2>
+            <p class="section-description">
+                開運とご縁を願い、一枚一枚に想いと遊び心を込めて描き、奉納してまいりました。<br>
+                ご覧くださる皆さまにも、ささやかなご利益が訪れますように──
+            </p>
             <div class="horizontal-scroll-container">
                 <div class="gallery-grid" id="digest-gallery-grid"></div>
             </div>
             <div class="view-all-container"><a href="gallery.html" class="view-all-button">全ての作品を見る</a></div>
+        </section>
+        <section class="content-section" id="ai-corner">
+            <h2 class="section-title">時すでにオロチ</h2>
+            <p class="section-description">
+                AIによって生成されたオロチの「やらかし」集。<br>
+                「時すでに遅し」な状況をモチーフに、オロチのキャラをいじって楽しむ
+                ミームカルチャーを作品として奉納しています。
+            </p>
+            <!-- 作品一覧は後で実装。今は説明のみ -->
         </section>
     </main>
     <script src="main.js"></script>
