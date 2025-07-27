@@ -24,10 +24,10 @@ body {
     /* ほんのり白ベールで柄を柔らかく（任意） */
     linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)),
     /* タイル表示 */
-    url('assets/wagara-tile.png') repeat;
-  background-size:
-    100% 100%,    /* グラデーションは全面 */
-    256px 256px;  /* タイルの大きさ */
+    url('assets/wagara-bg.png') repeat;     /* 同一画像に統一（任意） */
+  background-size: 100% 100%, 768px auto;   /* 比率保持でタイル */
+  background-position: 0 0, 0 0;
+  background-attachment: scroll, scroll;
 }
 .hero-image-container {
   position: relative;
@@ -272,9 +272,36 @@ h2.section-title {
 }
 #main-content{
   background:
-    linear-gradient(rgba(255,255,255,.80), rgba(255,255,255,.80)), /* 白ベール */
-    url('./assets/wagara-bg.png') center / cover no-repeat !important;
-  /* 必要に応じて強さを .70～.85 で微調整 */
+    /* 可読性のためのごく薄い白ベール */
+    linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)),
+    url('./assets/wagara-bg.png') repeat;
+  /* 画像は元が 1920×1032px。比率を保つため片側のみ指定し、もう片側は auto */
+  background-size:
+    100% 100%,   /* グラデーションは全面 */
+    768px auto;  /* 和柄タイル（デスクトップ）= 3倍相当、比率保持 */
+  background-position: 0 0, 0 0;
+  background-attachment: scroll, scroll;
+}
+
+@media (max-width: 768px){
+  #main-content{
+    background-size: 100% 100%, 576px auto;  /* 比率保持のまま縮小 */
+  }
+}
+
+#full-gallery.content-section {
+  /* 背景は main-content で統一する */
+  background: transparent !important;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+/* セクション側の背景は無効化して重ねを防止 */
+#portfolio,
+#full-gallery.content-section{
+  background: transparent !important;
+  padding-top: inherit;
+  padding-bottom: inherit;
 }
 /* --------------------------------------------------
    Main area – wagara wallpaper
@@ -298,16 +325,12 @@ h2.section-title {
 }
 /* --- gallery.html 背景 --- */
 #full-gallery.content-section {
-  background:
-    /* 文字の可読性担保のため、半透明の白を重ねる */
-    linear-gradient(rgba(255, 255, 255, .7), rgba(255, 255, 255, .7)),
-    /* 背景画像を指定し、スクロールに追従しないよう固定する */
-    url('./assets/wagara-bg.png') center / cover no-repeat fixed;
-
-  /* 上下の余白を調整 */
+  /* 背景は main-content で統一する */
+  background: transparent !important;
   padding-top: 60px;
   padding-bottom: 60px;
 }
+
 /* =================
 Global Header
 ==================== */
@@ -688,4 +711,36 @@ Global Header
   text-align: left;     /* 中央 → 左 */
   line-height: 1.9;
   color: #555;
+}
+
+/* Remove wagara background from body */
+/* body {
+  background: url('assets/wagara-bg.png') repeat;
+} */
+
+.hero-section{
+  background: #fff !important;
+}
+
+/* index 専用の和柄。歪み防止のため片側 auto で比率維持 */
+#main-content{
+  background:
+    linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)),
+    url('assets/wagara-bg.png') repeat;
+  background-size: 100% 100%, 768px auto;   /* 256 の3倍 / 比率保持 */
+  background-position: 0 0, 0 0;
+  background-attachment: scroll, scroll;
+}
+
+#page-gallery #main-content{
+  background:
+    linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)),
+    url('assets/wagara-bg.png') repeat;
+  background-size: 100% 100%, 768px auto;
+  background-position: 0 0, 0 0;
+  background-attachment: scroll, scroll;
+}
+
+@media (max-width: 768px){
+  #main-content{ background-size: 100% 100%, 640px auto; }
 }
