@@ -526,3 +526,97 @@ Global Header
   border-top: 1px solid rgba(0,0,0,.06);  /* #eee を薄く */
   text-align: right;
 }
+
+/* ===== Gallery page 専用 見出し・説明 ===== */
+#page-gallery h1.section-title{
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 3.8vw, 2.6rem);
+  line-height: 1.25;
+  letter-spacing: 0.03em;
+  color: #372e51;              /* 見出し文字色：濃い紫系 */
+  margin: 0;                   /* pとの距離はp側で調整 */
+  text-align: left;
+  background: transparent;     /* 共通の紫バナーを無効化 */
+  padding: 0;                  /* 余白もリセット */
+  border-radius: 0;
+  box-shadow: none;
+  position: relative;
+}
+
+#page-gallery h1.section-title::after{
+  content: "";
+  display: block;
+  width: 88px;                 /* アクセントの長さ */
+  height: 6px;
+  margin-top: 18px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg,#7d63ce, #a08ff0); /* 既存キーカラー由来 */
+}
+
+/* 説明文：読みやすい行幅と行間 */
+#page-gallery .section-description{
+  margin: 18px 0 36px 0;
+  max-width: 60ch;             /* 行幅制御で読みやすく */
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: #555;
+}
+
+/* モバイルは中央寄せで柔らかく */
+@media (max-width: 768px){
+  #page-gallery h1.section-title{ text-align: center; }
+  #page-gallery h1.section-title::after{
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #page-gallery .section-description{
+    margin: 16px auto 32px;
+    text-align: left;          /* 可読性優先で本文は左寄せのまま */
+  }
+}
+
+/* ===== Gallery page 専用: 見出しと説明（他ページへ影響なし） ===== */
+#page-gallery h1.section-title{
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(2.0rem, 3.2vw, 2.8rem);
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  color: #372e51;
+  /* 中央配置＋上下余白 */
+  width: fit-content;
+  margin: 16px auto 32px;   /* 上:16, 下:32 */
+  text-align: center;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  position: relative;
+}
+
+/* 下線は見出し幅にフィット（HTMLにタグは不要。CSSの ::after 疑似要素で描画） */
+#page-gallery h1.section-title::after{
+  content: "";
+  display: block;
+  width: 100%;              /* 文字幅ちょうど */
+  height: 6px;
+  margin-top: 18px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg,#7d63ce,#a08ff0);
+}
+
+/* 説明文：左寄せ・読みやすい行幅と余白 */
+#page-gallery .section-description{
+  max-width: 72ch;          /* 行幅を最適化 */
+  margin: 0 0 32px 0;       /* 下方向に余白 */
+  font-size: 1.06rem;
+  line-height: 1.9;
+  color: #555;
+  text-align: left;
+}
+
+/* フィルタバーとグリッドとの距離調整（任意だが推奨） */
+#page-gallery nav.filter-bar{
+  margin: 0 0 36px 0;
+}
