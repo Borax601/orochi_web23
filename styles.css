@@ -89,6 +89,7 @@ h2.section-title {
   color: white;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+  margin-left: 40px;
 }
 /* --- ギャラリーセクションのスタイル --- */
 .horizontal-scroll-container {
@@ -428,4 +429,100 @@ Global Header
     color: #555;
     line-height: 1.6;
     margin-bottom: 20px;
+}
+/* Art Shrine 見出し：#portfolio 限定で左寄せ・細身化 */
+#portfolio h2.section-title{
+  display: inline-block;        /* 内容幅に縮める */
+  width: fit-content;
+  max-width: min(720px, 90%);
+  margin: 0 0 40px 0;           /* 左寄せ */
+  text-align: left;
+
+  background: #7d63ce;          /* 既存キーカラーを踏襲 */
+  color: #fff;
+  padding: 12px 28px;           /* 面積を絞って軽量化 */
+  border-radius: 16px;
+  box-shadow: 0 6px 14px rgba(0,0,0,.12);
+  letter-spacing: 0.02em;
+}
+
+/* （任意）SPを中央寄せに戻す場合は有効化 */
+@media (max-width: 768px){
+  #portfolio h2.section-title{
+    display: block;
+    width: 100%;
+    margin: 0 0 28px 0;
+    text-align: center;
+    padding: 14px 20px;
+    border-radius: 14px;
+  }
+}
+
+/* ===== HOME (#portfolio) のみ：横スクロール→グリッド化 ===== */
+#portfolio .horizontal-scroll-container{
+  overflow: visible;            /* スクロールUIを消す */
+  padding: 0;                   /* 余白もリセットしてカード側で管理 */
+}
+
+#portfolio .gallery-grid{
+  display: grid !important;     /* 既存 flex を上書き */
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 28px;                    /* カード間隔。24〜32の範囲で微調整可 */
+  padding: 0;                   /* 既存 20px を0にして外周をすっきり */
+  width: 100%;                  /* max-content を解除 */
+}
+
+/* カード：白地・薄影・コンパクト */
+#portfolio .gallery-card{
+  background: #fff;             /* 紫ベタ面を白に */
+  color: #333;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+  padding: 16px;                /* 20px → 16pxで締める */
+  width: auto;                  /* 250px固定を解除 */
+  height: auto;
+  align-items: stretch;         /* 中身の高さで伸縮 */
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+#portfolio .gallery-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.08);
+}
+
+/* 画像：フレーム風に見せる（HTMLはそのまま） */
+#portfolio .gallery-card .card-image{
+  width: 100%;
+  height: auto;                 /* 280px固定を解除 */
+  aspect-ratio: 1 / 1;          /* 正方に揃え、縦長画像も整う */
+  object-fit: cover;            /* 作品の切れを避けたい場合は contain に */
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+  padding: 8px;                 /* “額縁”っぽい余白 */
+  margin-bottom: 12px;
+}
+
+/* テキストブロックは既存構造を維持して軽量化 */
+#portfolio .card-info{
+  padding: 0;                   /* 10px → 0 */
+  align-items: flex-start;      /* 左寄せ */
+  text-align: left;             /* 中央 → 左 */
+}
+#portfolio .card-title{
+  font-size: 1.05rem;           /* 1.2rem → 少し締める */
+  margin: 0 0 6px;
+}
+#portfolio .card-description{
+  font-size: .92rem;            /* 0.9rem付近を維持、やや濃いめの本文色 */
+  color: #555;
+  line-height: 1.7;
+}
+
+/* いいね行：境界線を弱め、右端寄せは維持 */
+#portfolio .gallery-icons{
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0,0,0,.06);  /* #eee を薄く */
+  text-align: right;
 }
