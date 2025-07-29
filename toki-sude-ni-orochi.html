@@ -5,17 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>時すでにオロチ – AI作品ギャラリー - 開運オロチ神社</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/orochi-32.png">
+    <link rel="icon" type="image/png" sizes="180x180" href="assets/orochi-180.png">
+    <link rel="icon" type="image/svg+xml" href="assets/orochi.svg">
+    <link rel="apple-touch-icon" href="assets/orochi-180.png">
 </head>
 <body id="page-ai-gallery">
-    <header>
-        <h1 class="section-title">時すでにオロチ – AI作品ギャラリー</h1>
-    </header>
-    <main>
-        <nav class="filter-bar">
-            <!-- Filters will be dynamically inserted here -->
-        </nav>
+  <!-- 固定ヘッダー -->
+  <header class="global-header">
+    <div class="header-container">
+      <a href="index.html" class="site-title">開運オロチ神社</a>
+      <button class="hamburger-menu" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="global-nav">
+        <ul>
+          <li><a href="index.html">HOME</a></li>
+          <li><a href="gallery.html">GALLERY</a></li>
+          <li><a href="#">SHOP</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 本文 -->
+  <main id="main-content">
+    <!-- gallery.html と同じラッパー構造 -->
+    <section id="full-gallery" class="content-section">
+      <div class="section-container">
+        <h2 class="section-title">全作品一覧</h2>
+        <p class="section-description">
+          これまでに制作した全ての時すでにオロチ作品です。
+        </p>
+
+        <!-- 月フィルタ (JS が注入) -->
+        <nav class="filter-bar"></nav>
+
+        <!-- 作品カード -->
         <div class="full-page-grid" id="full-gallery-grid"></div>
-    </main>
-    <script src="main.js"></script>
+      </div>
+    </section>
+  </main>
+
+  <script src="main.js"></script>
 </body>
 </html>

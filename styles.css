@@ -4,6 +4,7 @@
   --font-title: 'Shippori Mincho', serif;
   --color-background: #FFFFFF;
   --color-text: #333333;
+  --wagara-size: 768px;
 }
 body {
   margin: 0;
@@ -25,7 +26,7 @@ body {
     linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)),
     /* タイル表示 */
     url('assets/wagara-bg.png') repeat;     /* 同一画像に統一（任意） */
-  background-size: 100% 100%, 768px auto;   /* 比率保持でタイル */
+  background-size: 100% 100%, var(--wagara-size) var(--wagara-size);   /* 比率保持でタイル */
   background-position: 0 0, 0 0;
   background-attachment: scroll, scroll;
 }
@@ -270,22 +271,22 @@ h2.section-title {
   background: transparent;
   padding: 20px;          /* 余白は維持 */
 }
-#main-content{
+#main-content,
+#page-gallery #main-content,
+#page-ai-gallery #main-content {
+  background-size: 100% 100%, var(--wagara-size) var(--wagara-size);
   background:
     /* 可読性のためのごく薄い白ベール */
     linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)),
     url('./assets/wagara-bg.png') repeat;
   /* 画像は元が 1920×1032px。比率を保つため片側のみ指定し、もう片側は auto */
-  background-size:
-    100% 100%,   /* グラデーションは全面 */
-    768px auto;  /* 和柄タイル（デスクトップ）= 3倍相当、比率保持 */
   background-position: 0 0, 0 0;
   background-attachment: scroll, scroll;
 }
 
 @media (max-width: 768px){
   #main-content{
-    background-size: 100% 100%, 576px auto;  /* 比率保持のまま縮小 */
+    background-size: 100% 100%, 640px 640px;  /* 比率保持のまま縮小 */
   }
 }
 
@@ -724,23 +725,63 @@ Global Header
 
 /* index 専用の和柄。歪み防止のため片側 auto で比率維持 */
 #main-content{
+  background-size: 100% 100%, var(--wagara-size) var(--wagara-size);
   background:
     linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)),
     url('assets/wagara-bg.png') repeat;
-  background-size: 100% 100%, 768px auto;   /* 256 の3倍 / 比率保持 */
   background-position: 0 0, 0 0;
   background-attachment: scroll, scroll;
 }
 
 #page-gallery #main-content{
+  background-size: 100% 100%, var(--wagara-size) var(--wagara-size);
   background:
     linear-gradient(rgba(255,255,255,.35), rgba(255,255,255,.35)),
     url('assets/wagara-bg.png') repeat;
-  background-size: 100% 100%, 768px auto;
   background-position: 0 0, 0 0;
   background-attachment: scroll, scroll;
 }
 
 @media (max-width: 768px){
-  #main-content{ background-size: 100% 100%, 640px auto; }
+  #main-content{ background-size: 100% 100%, 640px 640px; }
+}
+
+/* ===== AI Gallery page – heading / description ===== */
+#page-ai-gallery h2.section-title{
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(2.0rem, 3.2vw, 2.8rem);
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  color: #372e51;
+
+  width: fit-content;          /* 文字幅ちょうど */
+  margin: 16px auto 32px;      /* 中央寄せ (auto) */
+  text-align: center;
+
+  background: transparent;     /* 紫バナー無効 */
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  position: relative;
+}
+/* 下線を文字幅に合わせて描画 */
+#page-ai-gallery h2.section-title::after{
+  content: "";
+  display: block;
+  width: 100%;
+  height: 6px;
+  margin-top: 18px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #7d63ce, #a08ff0);
+}
+
+/* 説明文も中央基準の余白に合わせる */
+#page-ai-gallery .section-description{
+  max-width: 72ch;
+  margin: 0 auto 36px;
+  font-size: 1.06rem;
+  line-height: 1.9;
+  color: #555;
+  text-align: left;
 }
