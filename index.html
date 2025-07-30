@@ -45,10 +45,25 @@
             <img src="assets/torii.svg" class="hero-torii" alt="鳥居" />
         </div>
     </header>
-    <section class="news-section">
-        <div class="news-container">
-            <p>ようこそ、開運オロチ神社へ</p>
-            <p>ここは、作品をゆっくり味わえるデジタルの美術館であり、みんなで楽しめるオンラインの神社。見る、好きと言う、また来る――その積み重ねが世界を少しずつ明るくし、あなたの運気にも追い風を連れてきます。これからおみくじなどの参加コンテンツも増やしていきます。あなたの一歩が、この場所にご利益を灯します。</p>
+    <section id="hero-intro" class="intro-section">
+        <div class="intro-step" data-step="1">
+            <p>ようこそ、開運オロチ神社へ。</p>
+        </div>
+
+        <div class="intro-step" data-step="2">
+            <p>ここは、開運がめぐる場所。</p>
+            <p>「見る」「好き」「また来る」――</p>
+        </div>
+
+        <div class="intro-step" data-step="3">
+            <p>その小さな積み重ねが、</p>
+            <p>世界を明るくし、あなたの運気を押し上げる。</p>
+        </div>
+
+        <div class="intro-step" data-step="4">
+            <p>ひとつひとつの作品に宿る願いが、</p>
+            <p>あなたの心に静かな追い風を運び、</p>
+            <p>また新しい一歩を踏み出す力になるでしょう。</p>
         </div>
     </section>
     <main id="main-content">
@@ -70,8 +85,10 @@
                 「時すでに遅し」な状況をモチーフに、オロチのキャラをいじって楽しむ
                 ミームカルチャーを作品として奉納しています。
             </p>
+            <div class="horizontal-scroll-container">
+                <div class="gallery-grid" id="ai-digest-grid"></div>
+            </div>
             <a href="toki-sude-ni-orochi.html" class="view-all-button">全ての作品を見る</a>
-            <!-- 作品一覧は後で実装。今は説明のみ -->
         </section>
     </main>
     <script src="main.js"></script>

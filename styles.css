@@ -785,3 +785,142 @@ Global Header
   color: #555;
   text-align: left;
 }
+
+/* 1) 横スクロール解除 + 余白リセット */
+#portfolio .horizontal-scroll-container,
+#ai-corner   .horizontal-scroll-container{
+   overflow: visible;
+   padding: 0;
+}
+
+/* 2) グリッド化 */
+#portfolio .gallery-grid,
+#ai-corner   .gallery-grid{
+   display: grid !important;
+   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+   gap: 28px;
+   padding: 0;
+   width: 100%;
+}
+
+/* 3) カード全体スタイル（白背景・影など） */
+#portfolio .gallery-card,
+#ai-corner   .gallery-card{
+   background: #fff;
+   color: #333;
+   border-radius: 14px;
+   border: 1px solid rgba(0,0,0,.05);
+   box-shadow: 0 8px 20px rgba(0,0,0,.06);
+   padding: 16px;
+   width: auto;
+   height: auto;
+   align-items: stretch;
+   transition: transform .15s ease, box-shadow .15s ease;
+}
+#portfolio .gallery-card:hover,
+#ai-corner   .gallery-card:hover{
+   transform: translateY(-2px);
+   box-shadow: 0 12px 28px rgba(0,0,0,.08);
+}
+
+/* 4) 画像フレーム調整 */
+#portfolio .gallery-card .card-image,
+#ai-corner   .gallery-card .card-image{
+   width: 100%;
+   aspect-ratio: 1/1;
+   object-fit: cover;
+   background: #fff;
+   border-radius: 10px;
+   box-shadow: 0 6px 16px rgba(0,0,0,.08);
+   padding: 8px;
+   margin-bottom: 12px;
+}
+
+/* 5) テキスト＆like 行 */
+#portfolio .card-info,
+#ai-corner   .card-info{
+   padding: 0;
+   align-items: flex-start;
+   text-align: left;
+}
+#portfolio .card-title,
+#ai-corner   .card-title{ font-size: 1.05rem; margin: 0 0 6px; }
+#portfolio .card-description,
+#ai-corner   .card-description{ font-size: .92rem; color:#555; line-height:1.7; }
+
+/* いいね行：境界線を弱め、右端寄せは維持 */
+#portfolio .gallery-icons,
+#ai-corner   .gallery-icons{
+   margin-top: 12px;
+   padding-top: 10px;
+   border-top: 1px solid rgba(0,0,0,.06);
+   text-align: right;
+}
+
+/* ===== Hero Intro ===== */
+.intro-section{
+  text-align:center;
+  padding:80px 20px 60px;
+  background:#fff;
+  font-family: var(--font-base);
+}
+
+.intro-line, .intro-block p{
+  opacity:0;
+  margin:8px 0;
+  font-size:clamp(1.1rem,2.0vw,1.4rem);
+  line-height:1.8;
+}
+
+@keyframes fadeIn {from{opacity:0;} to{opacity:1;} }
+@keyframes fadeOut{from{opacity:1;} to{opacity:0;} }
+
+.fade-in { animation: fadeIn 0.8s forwards; }
+.fade-out{ animation: fadeOut 0.6s forwards; }
+
+/* ===== Hero Intro (single-spot) ===== */
+.intro-section{
+  position:relative;
+  height:220px;                    /* 固定高さで余白ゼロ */
+  overflow:hidden;
+  background:#fff;
+  display:flex;justify-content:center;align-items:center;
+}
+
+.intro-step{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;justify-content:center;
+  align-items:center;text-align:center;
+  gap:4px;
+  opacity:0;
+  filter:blur(3px);
+}
+
+.intro-step p{
+  margin:4px 0;
+  font-size:clamp(1.15rem,2.1vw,1.5rem);
+  line-height:1.8;
+  color:#333;
+}
+
+/* アニメーション */
+@keyframes fadeInBlur{
+  0%   {opacity:0; filter:blur(6px);}
+  80%  {opacity:1; filter:blur(0);}
+  100% {opacity:1; filter:blur(0);}
+}
+@keyframes fadeOutBlur{
+  0%   {opacity:1; filter:blur(0);}
+  100% {opacity:0; filter:blur(6px);}
+}
+
+.fade-in { animation:fadeInBlur .8s forwards ease-out; }
+.fade-out{ animation:fadeOutBlur .6s forwards ease-in; }
+
+#hero-intro{
+  margin-top: -20px;   /* 80 - 100 = -20 で 100px 詰める */
+}
+
+.hero-stairs{
+  margin-bottom: 0;   /* 元が 100px なら 0 にする */
+}

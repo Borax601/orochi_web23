@@ -53,6 +53,40 @@ function setupHeroAnimation() {
   playLoop();
 }
 
+// ===== Hero Intro Timeline =====
+/* ===== hero timeline (overwrite) ===== */
+function playHeroIntro(){
+  const steps = [...document.querySelectorAll('#hero-intro .intro-step')];
+  if(!steps.length) return;
+
+  const delays = [0, 4000, 7000, 10000];  // 各ステップ待機を 2 倍
+  let idx = 0;
+
+  const show = () => {
+    const cur = steps[idx];
+    if(!cur) return;
+
+    cur.classList.add('fade-in');
+
+    if(idx > 0){
+      // フェードアウト前ステップ
+      const prev = steps[idx-1];
+      prev.classList.remove('fade-in');
+      prev.classList.add('fade-out');
+    }
+    idx++;
+    if(idx < steps.length){
+      setTimeout(show, delays[idx] - delays[idx-1]);
+    }
+  };
+  show();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initializeApp();     // 既存初期化
+  playHeroIntro();     // ← 最後に呼ぶ
+});
+
 // ===== データ取得 共通 =====
 const jsonPath = 'オロチポートフォリオ文字データ/works.json';
 const csvPath  = 'オロチポートフォリオ文字データ/オロチポートフォリオ表.csv';
@@ -178,8 +212,26 @@ async function initializeApp() {
     renderGallery(worksToDisplay.slice(0, 10), '#digest-gallery-grid');
   }
 
+  renderAIDigest(worksData);
+
   setupLikeButtons();
   setupHamburgerMenu();
+}
+
+function renderAIDigest(works) {
+  const grid = document.getElementById('ai-digest-grid');
+  if (!grid) return;
+
+  const aiWorks = works
+    .filter(w => w.category === 'AI')
+    .sort((a, b) => Number(b.date) - Number(a.date))
+    .slice(0, 5);
+
+  renderGallery(aiWorks, '#ai-digest-grid');   // gallery.html と同じ関数
+
+  if (typeof setupLikeButtons === 'function') {
+    setupLikeButtons();
+  }
 }
 
 // ===== 描画・UI 関数（既存ロジックを流用） =====
