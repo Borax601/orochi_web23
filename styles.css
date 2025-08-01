@@ -826,15 +826,15 @@ Global Header
 
 /* 4) 画像フレーム調整 */
 #portfolio .gallery-card .card-image,
-#ai-corner   .gallery-card .card-image{
-   width: 100%;
-   aspect-ratio: 1/1;
-   object-fit: cover;
-   background: #fff;
-   border-radius: 10px;
-   box-shadow: 0 6px 16px rgba(0,0,0,.08);
-   padding: 8px;
-   margin-bottom: 12px;
+#ai-corner   .gallery-card .card-image,
+#digest-gallery-grid .gallery-card .card-image {
+   width: 224px;
+   height: 224px;
+   object-fit: contain;   /* 切り抜かず全体表示 */
+   background: #fff;      /* 余白用の下地 */
+   display: block;
+   margin: 0 auto;
+   border-radius: 10px;   /* 既存カード角丸と統一（必要なら調整） */
 }
 
 /* 5) テキスト＆like 行 */
@@ -943,16 +943,4 @@ Global Header
   margin:0 auto 32px;
   -webkit-backdrop-filter:blur(2px);
   backdrop-filter:blur(2px);
-}
-
-/* ===== 画像を 224×224 px の正方形に収める（トリミングしない） ===== */
-#portfolio .gallery-card .card-image,
-#ai-corner .gallery-card .card-image {
-    width: 224px;
-    height: 224px;
-    object-fit: contain;   /* 切り抜かず全体表示 */
-    background: #fff;      /* 余白用の下地 */
-    display: block;
-    margin: 0 auto;
-    border-radius: 10px;   /* 既存カード角丸と統一（必要なら調整） */
 }
