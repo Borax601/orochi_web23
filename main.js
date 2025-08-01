@@ -222,7 +222,13 @@ async function initializeApp() {
     // renderGallery(worksToDisplay.slice(0, 10), '#digest-gallery-grid');
   }
 
-  renderAIDigest(worksData);
+  const aiWorks = worksData
+      .filter(w => w.category === 'AI')
+      .sort((a,b) => Number(b.date) - Number(a.date));
+  refreshAIDigest(aiWorks);                     // 初回
+  window.addEventListener('resize', () => {     // リサイズ対応
+      refreshAIDigest(aiWorks);
+  });
 
   setupLikeButtons();
   setupHamburgerMenu();
@@ -247,20 +253,22 @@ function onResizeDigest() {
 }
 onResizeDigest._prevCols = calcColumns(); // 初期化
 
-function renderAIDigest(works) {
-  const grid = document.getElementById('ai-digest-grid');
-  if (!grid) return;
+function calcColumnsFor(gridSel){
+  const grid = document.querySelector(gridSel);
+  if(!grid) return 1;
+  const first = grid.querySelector('.gallery-card');
+  const cardW = first ? first.getBoundingClientRect().width : 260;
+  const style  = window.getComputedStyle(grid);
+  const gapX   = parseInt(style.columnGap || style.gap || 0, 10);
+  const gridW  = grid.getBoundingClientRect().width;
+  return Math.max(1, Math.floor((gridW + gapX) / (cardW + gapX)));
+}
 
-  const aiWorks = works
-    .filter(w => w.category === 'AI')
-    .sort((a, b) => Number(b.date) - Number(a.date))
-    .slice(0, 5);
-
-  renderGallery(aiWorks, '#ai-digest-grid');   // gallery.html と同じ関数
-
-  if (typeof setupLikeButtons === 'function') {
-    setupLikeButtons();
-  }
+function refreshAIDigest(aiWorks){
+  const gridSel = '#ai-digest-grid';
+  const cols = calcColumnsFor(gridSel);   // ← 列数
+  renderGallery(aiWorks.slice(0, cols), gridSel);
+  setupLikeButtons();
 }
 
 // ===== 描画・UI 関数（既存ロジックを流用） =====
