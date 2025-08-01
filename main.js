@@ -58,28 +58,35 @@ function setupHeroAnimation() {
 function playHeroIntro(){
   const steps = [...document.querySelectorAll('#hero-intro .intro-step')];
   if(!steps.length) return;
-
-  const delays = [0, 4000, 7000, 10000];  // 各ステップ待機を 2 倍
+  const delays = [0, 4000, 7000, 10000];
+  const holdLast = 3000;
   let idx = 0;
 
-  const show = () => {
+  const next = () => {
     const cur = steps[idx];
-    if(!cur) return;
+    const prev = steps[idx-1];
 
-    cur.classList.add('fade-in');
-
-    if(idx > 0){
-      // フェードアウト前ステップ
-      const prev = steps[idx-1];
+    if(cur){
+      cur.classList.remove('fade-out');
+      cur.classList.add('fade-in');
+    }
+    if(prev){
       prev.classList.remove('fade-in');
       prev.classList.add('fade-out');
     }
+
     idx++;
     if(idx < steps.length){
-      setTimeout(show, delays[idx] - delays[idx-1]);
+      setTimeout(next, delays[idx] - delays[idx-1]);
+    }else{
+      setTimeout(()=>{
+        steps.forEach(s=>s.classList.remove('fade-in','fade-out'));
+        idx = 0;
+        next();
+      }, holdLast);
     }
   };
-  show();
+  next();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
