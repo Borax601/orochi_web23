@@ -944,3 +944,15 @@ Global Header
   -webkit-backdrop-filter:blur(2px);
   backdrop-filter:blur(2px);
 }
+
+/* ===== 画像を 224×224 px の正方形に収める（トリミングしない） ===== */
+#portfolio .gallery-card .card-image,
+#ai-corner .gallery-card .card-image {
+    width: 224px;
+    height: 224px;
+    object-fit: contain;   /* 切り抜かず全体表示 */
+    background: #fff;      /* 余白用の下地 */
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;   /* 既存カード角丸と統一（必要なら調整） */
+}
