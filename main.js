@@ -176,6 +176,8 @@ function mergeWorks(jsonArr = [], csvArr = []) {
 }
 
 // ===== アプリ初期化 =====
+let digestWorks = []; // TOPページ「奉納作品」用の全データ
+
 async function initializeApp() {
   let jsonData = [];
   let csvData  = [];
@@ -206,9 +208,10 @@ async function initializeApp() {
   } else if (pageId === 'page-ai-gallery') {
     worksToDisplay = worksData.filter(w => w.category === 'AI');
   } else if (document.getElementById('digest-gallery-grid')) {
-    worksToDisplay = worksData
+    digestWorks = worksToDisplay = worksData
       .filter(w => w.category === 'イラスト' && w.date)
       .sort((a, b) => Number(b.date) - Number(a.date));
+    refreshDigestGrid(); // 下で定義する関数
   }
 
   if (document.getElementById('full-gallery-grid')) {
@@ -216,14 +219,33 @@ async function initializeApp() {
     setupFilter(worksToDisplay);
   }
   if (document.getElementById('digest-gallery-grid')) {
-    renderGallery(worksToDisplay.slice(0, 10), '#digest-gallery-grid');
+    // renderGallery(worksToDisplay.slice(0, 10), '#digest-gallery-grid');
   }
 
   renderAIDigest(worksData);
 
   setupLikeButtons();
   setupHamburgerMenu();
+  window.addEventListener('resize', onResizeDigest); // 画面リサイズごとに TOP digest を再描画
 }
+
+function refreshDigestGrid() {
+  const gridEl = document.querySelector('#digest-gallery-grid');
+  if (!gridEl || !digestWorks.length) return;
+
+  const maxShow = calcColumns() * 2; // 列数 ×2 行
+  renderGallery(digestWorks.slice(0, maxShow), '#digest-gallery-grid');
+  setupLikeButtons(); // like 再バインド
+}
+
+function onResizeDigest() {
+  const newCols = calcColumns();
+  if (newCols !== onResizeDigest._prevCols) {
+    onResizeDigest._prevCols = newCols;
+    refreshDigestGrid();
+  }
+}
+onResizeDigest._prevCols = calcColumns(); // 初期化
 
 function renderAIDigest(works) {
   const grid = document.getElementById('ai-digest-grid');
@@ -332,6 +354,20 @@ function setupHamburgerMenu() {
     this.classList.toggle('active');
     nav.classList.toggle('active');
   });
+}
+
+function calcColumns() {
+  const grid = document.getElementById('digest-gallery-grid');
+  if (!grid) return 1;
+
+  const firstCard = grid.querySelector('.gallery-card');
+  const cardWidth = firstCard ? firstCard.getBoundingClientRect().width : 260;
+
+  const style = window.getComputedStyle(grid);
+  const gapX = parseInt(style.columnGap || style.gap || 0, 10);
+
+  const gridW = grid.getBoundingClientRect().width;
+  return Math.max(1, Math.floor((gridW + gapX) / (cardWidth + gapX)));
 }
 
 // ===== Self Test (Shift + D) =====

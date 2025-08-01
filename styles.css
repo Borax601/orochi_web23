@@ -798,7 +798,8 @@ Global Header
 #ai-corner   .gallery-grid{
    display: grid !important;
    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-   gap: 28px;
+   column-gap: 28px;
+   row-gap: 28px;
    padding: 0;
    width: 100%;
 }
@@ -863,7 +864,7 @@ Global Header
   padding:0 20px 20px;
   background:#fff;
   font-family: var(--font-base);
-  height: 160px;
+  height: 220px;
   position:relative;
   overflow:hidden;
   display:flex;justify-content:center;align-items:center;
