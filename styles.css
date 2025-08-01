@@ -835,6 +835,7 @@ Global Header
    display: block;
    margin: 0 auto;
    border-radius: 10px;   /* 既存カード角丸と統一（必要なら調整） */
+   box-shadow: 0 6px 16px rgba(0,0,0,.08);
 }
 
 /* 5) テキスト＆like 行 */
