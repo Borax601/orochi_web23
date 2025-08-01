@@ -116,8 +116,8 @@ h2.section-title {
     height: auto;
     display: flex;
     flex-direction: column;
+    align-items: center;   /* ← stretch → center に変更 */
     justify-content: space-between;
-    align-items: center;
 }
 .gallery-card img {
     width: 100%;
@@ -486,7 +486,7 @@ Global Header
 
 #portfolio .gallery-grid{
   display: grid !important;     /* 既存 flex を上書き */
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* 240→260 */
   gap: 28px;                    /* カード間隔。24〜32の範囲で微調整可 */
   padding: 0;                   /* 既存 20px を0にして外周をすっきり */
   width: 100%;                  /* max-content を解除 */
@@ -502,7 +502,7 @@ Global Header
   padding: 16px;                /* 20px → 16pxで締める */
   width: auto;                  /* 250px固定を解除 */
   height: auto;
-  align-items: stretch;         /* 中身の高さで伸縮 */
+  align-items: center;         /* 中身の高さで伸縮 */
   transition: transform .15s ease, box-shadow .15s ease;
 }
 #portfolio .gallery-card:hover{
@@ -797,7 +797,7 @@ Global Header
 #portfolio .gallery-grid,
 #ai-corner   .gallery-grid{
    display: grid !important;
-   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* 240→260 */
    column-gap: 28px;
    row-gap: 28px;
    padding: 0;
@@ -815,7 +815,7 @@ Global Header
    padding: 16px;
    width: auto;
    height: auto;
-   align-items: stretch;
+   align-items: center;         /* 中身の高さで伸縮 */
    transition: transform .15s ease, box-shadow .15s ease;
 }
 #portfolio .gallery-card:hover,
@@ -825,25 +825,33 @@ Global Header
 }
 
 /* 4) 画像フレーム調整 */
-#portfolio .gallery-card .card-image,
+#portfolio   .gallery-card .card-image,
 #ai-corner   .gallery-card .card-image,
-#digest-gallery-grid .gallery-card .card-image {
-   width: 224px;
-   height: 224px;
-   object-fit: contain;   /* 切り抜かず全体表示 */
-   background: #fff;      /* 余白用の下地 */
-   display: block;
-   margin: 0 auto;
-   border-radius: 10px;   /* 既存カード角丸と統一（必要なら調整） */
-   box-shadow: 0 6px 16px rgba(0,0,0,.08);
+#digest-gallery-grid .gallery-card .card-image,
+#ai-digest-grid      .gallery-card .card-image {
+  /* ===== サイズとセンタリング ===== */
+  width: 100%;             /* カード幅いっぱい（※max-widthで縛る） */
+  max-width: 224px;        /* 全作品 224×224 フレームに統一 */
+  aspect-ratio: 1 / 1;     /* 正方形を保証 */
+  height: auto;            /* object-fit と併用で歪み無し */
+
+  object-fit: contain;     /* 作品を切らずに収める */
+  display: block;
+  margin: 0 auto;          /* 常に左右中央 */
+
+  /* ===== 額縁・ドロップシャドウ ===== */
+  padding: 8px;            /* 白フチ */
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
 }
 
 /* 5) テキスト＆like 行 */
 #portfolio .card-info,
 #ai-corner   .card-info{
    padding: 0;
-   align-items: flex-start;
-   text-align: left;
+   align-items: center;   /* ← stretch → center に変更 */
+   text-align: center;
 }
 #portfolio .card-title,
 #ai-corner   .card-title{ font-size: 1.05rem; margin: 0 0 6px; }
