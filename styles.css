@@ -149,7 +149,9 @@ h2.section-title {
 }
 .view-all-container {
     text-align: center;
-    margin-top: 120px; /* ボタンのサイズ3つ分下に移動 */
+    margin-top: 40px;
+    display: flex;         /* 中央寄せ用 */
+    justify-content: center;
 }
 .view-all-button {
     display: inline-block;
@@ -164,20 +166,10 @@ h2.section-title {
 .view-all-button:hover {
     opacity: 0.8;
 }
-/* ================================
-   VIEW-ALL BUTTON – 共通レイアウト
-   ================================ */
-.content-section .view-all-container {
-    display: flex;
-    justify-content: center;   /* 中央揃え */
-    margin: 25px 0;            /* 上下 25px・左右 0 */
+@media (min-width: 768px) {
+  .view-all-container { margin-top: 1.5rem; } /* 約24px */
 }
 
-/* Commenting out existing individual margin settings */
-/* #ai-corner .view-all-container,
-#portfolio .view-all-container { */
-/*     margin-top: 40px; */
-/* } */
 /* --- 微調整：ギャラリーアイコン --- */
 .gallery-icons {
     margin-top: auto;
@@ -657,7 +649,7 @@ Global Header
 
 /* ==== AIコーナー（時すでにオロチ） ===================== */
 #ai-corner {
-  margin-top: 36px;              /* 上の「全ての作品を見る」と余白をとる */
+  margin-top: 72px;              /* 上の「全ての作品を見る」と余白をとる */
 }
 
 /* Art Shrine と 時すでにオロチ のタイトルを共通バッジに統一 */
@@ -710,7 +702,7 @@ Global Header
 
 /* ==== AIコーナー（時すでにオロチ） ==== */
 #ai-corner {
-  margin-top: 36px;
+  margin-top: 72px;
 }
 
 /* 見出しは他と同サイズ。整列と余白のみ調整 */

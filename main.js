@@ -222,13 +222,7 @@ async function initializeApp() {
     // renderGallery(worksToDisplay.slice(0, 10), '#digest-gallery-grid');
   }
 
-  const aiWorks = worksData
-      .filter(w => w.category === 'AI')
-      .sort((a,b) => Number(b.date) - Number(a.date));
-  refreshAIDigest(aiWorks);                     // 初回
-  window.addEventListener('resize', () => {     // リサイズ対応
-      refreshAIDigest(aiWorks);
-  });
+  renderAIDigest(worksData);
 
   setupLikeButtons();
   setupHamburgerMenu();
@@ -253,22 +247,47 @@ function onResizeDigest() {
 }
 onResizeDigest._prevCols = calcColumns(); // 初期化
 
-function calcColumnsFor(gridSel){
-  const grid = document.querySelector(gridSel);
-  if(!grid) return 1;
-  const first = grid.querySelector('.gallery-card');
-  const cardW = first ? first.getBoundingClientRect().width : 260;
-  const style  = window.getComputedStyle(grid);
-  const gapX   = parseInt(style.columnGap || style.gap || 0, 10);
-  const gridW  = grid.getBoundingClientRect().width;
-  return Math.max(1, Math.floor((gridW + gapX) / (cardW + gapX)));
+// === AI digest responsive (1 row: 4/3/2/1) ===
+let aiAllWorks = [];
+let _aiPrevCols = 0;
+
+function getAIDigestCols() {
+  const w = window.innerWidth;
+  if (w >= 1280) return 4;   // 一般PC〜4K
+  if (w >= 1024) return 3;   // 小型ノート
+  if (w >= 768)  return 2;   // タブレット
+  return 1;                  // スマホ
 }
 
-function refreshAIDigest(aiWorks){
-  const gridSel = '#ai-digest-grid';
-  const cols = calcColumnsFor(gridSel);   // ← 列数
-  renderGallery(aiWorks.slice(0, cols), gridSel);
-  setupLikeButtons();
+function refreshAIDigest() {
+  const grid = document.getElementById('ai-digest-grid');
+  if (!grid || !aiAllWorks.length) return;
+  const cols = getAIDigestCols();
+  if (cols === _aiPrevCols && grid.children.length) return; // 無駄な再描画防止
+  _aiPrevCols = cols;
+
+  // 1 行だけ描画するため、表示数 = 列数 に限定
+  renderGallery(aiAllWorks.slice(0, cols), '#ai-digest-grid');
+
+  // いいね再バインド（既存仕様踏襲）
+  if (typeof setupLikeButtons === 'function') setupLikeButtons();
+}
+
+function onResizeAIDigest() {
+  const cols = getAIDigestCols();
+  if (cols !== _aiPrevCols) refreshAIDigest();
+}
+
+function renderAIDigest(works) {
+  const grid = document.getElementById('ai-digest-grid');
+  if (!grid) return;
+
+  aiAllWorks = (works || [])
+    .filter(w => w.category === 'AI')
+    .sort((a, b) => Number(b.date) - Number(a.date)); // 新しい順
+
+  refreshAIDigest();
+  window.addEventListener('resize', onResizeAIDigest);
 }
 
 // ===== 描画・UI 関数（既存ロジックを流用） =====
