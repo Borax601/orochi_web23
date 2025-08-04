@@ -796,14 +796,16 @@ Global Header
 
 /* 1) 横スクロール解除 + 余白リセット */
 #portfolio .horizontal-scroll-container,
-#ai-corner   .horizontal-scroll-container{
+#ai-corner   .horizontal-scroll-container,
+#video-corner .horizontal-scroll-container{
    overflow: visible;
    padding: 0;
 }
 
 /* 2) グリッド化 */
 #portfolio .gallery-grid,
-#ai-corner   .gallery-grid{
+#ai-corner   .gallery-grid,
+#video-corner .gallery-grid{
    display: grid !important;
    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* 240→260 */
    column-gap: 28px;
@@ -814,7 +816,8 @@ Global Header
 
 /* 3) カード全体スタイル（白背景・影など） */
 #portfolio .gallery-card,
-#ai-corner   .gallery-card{
+#ai-corner   .gallery-card,
+#video-corner .gallery-card{
    background: #fff;
    color: #333;
    border-radius: 14px;
@@ -829,7 +832,8 @@ Global Header
    transition: transform .15s ease, box-shadow .15s ease;
 }
 #portfolio .gallery-card:hover,
-#ai-corner   .gallery-card:hover{
+#ai-corner   .gallery-card:hover,
+#video-corner .gallery-card:hover{
    transform: translateY(-2px);
    box-shadow: 0 12px 28px rgba(0,0,0,.08);
 }
@@ -837,6 +841,7 @@ Global Header
 /* 4) 画像フレーム調整 */
 #portfolio   .gallery-card .card-image,
 #ai-corner   .gallery-card .card-image,
+#video-corner .gallery-card .card-image,
 #digest-gallery-grid .gallery-card .card-image,
 #ai-digest-grid      .gallery-card .card-image {
   /* ===== サイズとセンタリング ===== */
@@ -858,19 +863,23 @@ Global Header
 
 /* 5) テキスト＆like 行 */
 #portfolio .card-info,
-#ai-corner   .card-info{
+#ai-corner   .card-info,
+#video-corner .card-info{
    padding: 0;
    align-items: center;   /* ← stretch → center に変更 */
    text-align: center;
 }
 #portfolio .card-title,
-#ai-corner   .card-title{ font-size: 1.05rem; margin: 0 0 6px; }
+#ai-corner   .card-title,
+#video-corner .card-title{ font-size: 1.05rem; margin: 0 0 6px; }
 #portfolio .card-description,
-#ai-corner   .card-description{ font-size: .92rem; color:#555; line-height:1.7; }
+#ai-corner   .card-description,
+#video-corner .card-description{ font-size: .92rem; color:#555; line-height:1.7; }
 
 /* いいね行：境界線を弱め、右端寄せは維持 */
 #portfolio .gallery-icons,
-#ai-corner   .gallery-icons{
+#ai-corner   .gallery-icons,
+#video-corner .gallery-icons{
    margin-top: 12px;
    padding-top: 10px;
    border-top: 1px solid rgba(0,0,0,.06);
@@ -1356,4 +1365,97 @@ body.modal-open { overflow: hidden; }
     padding: 14px 20px; border-radius: 14px;
   }
   #video-corner .section-description { margin: 0 auto 48px; }
+}
+
+/* ==== 動くオロチ奉納殿 (#video-corner) を #ai-corner と完全同一仕様に ==== */
+
+/* 1) 横スクロール解除＋余白リセット（#ai-corner と同じ） */
+#portfolio .horizontal-scroll-container,
+#ai-corner .horizontal-scroll-container,
+#video-corner .horizontal-scroll-container {
+  overflow: visible;
+  padding: 0;
+}
+
+/* 2) グリッド化とギャップ揃え（28px に統一） */
+#portfolio .gallery-grid,
+#ai-corner .gallery-grid,
+#video-corner .gallery-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  column-gap: 28px;
+  row-gap: 28px;
+  padding: 0;
+  width: 100%;
+}
+
+/* 3) カード外観（白カード＋薄影） */
+#portfolio .gallery-card,
+#ai-corner .gallery-card,
+#video-corner .gallery-card {
+  background: #fff;
+  color: #333;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+#portfolio .gallery-card:hover,
+#ai-corner .gallery-card:hover,
+#video-corner .gallery-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.08);
+}
+
+/* 4) 画像フレーム（224×224 の額縁・中央揃え） */
+#portfolio .gallery-card .card-image,
+#ai-corner .gallery-card .card-image,
+#video-corner .gallery-card .card-image,
+#digest-gallery-grid .gallery-card .card-image,
+#ai-digest-grid .gallery-card .card-image {
+  width: 100%;
+  max-width: 224px;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  padding: 8px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+}
+
+/* 5) テキスト＆like 行 */
+#portfolio .card-info,
+#ai-corner .card-info,
+#video-corner .card-info {
+  padding: 0;
+  align-items: center;
+  text-align: center;
+}
+#portfolio .card-title,
+#ai-corner .card-title,
+#video-corner .card-title {
+  font-size: 1.05rem;
+  margin: 0 0 6px;
+}
+#portfolio .card-description,
+#ai-corner .card-description,
+#video-corner .card-description {
+  font-size: .92rem;
+  color: #555;
+  line-height: 1.7;
+}
+#portfolio .gallery-icons,
+#ai-corner .gallery-icons,
+#video-corner .gallery-icons {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0,0,0,.06);
+  text-align: right;
 }

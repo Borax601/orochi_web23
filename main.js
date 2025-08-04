@@ -223,6 +223,7 @@ async function initializeApp() {
   }
 
   renderAIDigest(worksData);
+  renderVideoDigest(worksData); // 追加
 
   setupLikeButtons();
   setupHamburgerMenu();
@@ -288,6 +289,70 @@ function renderAIDigest(works) {
 
   refreshAIDigest();
   window.addEventListener('resize', onResizeAIDigest);
+}
+
+// === Video digest responsive (1 row: 4/3/2/1) ===
+let videoAllWorks = [];
+let _videoPrevCols = 0;
+
+function getVideoDigestCols() {
+  const w = window.innerWidth;
+  if (w >= 1280) return 4;   // PC〜4K
+  if (w >= 1024) return 3;   // 小型ノート
+  if (w >= 768)  return 2;   // タブレット
+  return 1;                  // スマホ
+}
+
+function renderVideoCards(works, containerSelector) {
+  const container = document.querySelector(containerSelector);
+  if (!container) return;
+  const html = works.map(w => {
+    const ym   = String(w.date).substring(0,6);
+    const img  = `assets/gallery_${ym}/${w.image_filename}`;        // 既存サムネ
+    const video= `assets/gallery_${ym}/vid_${w.date}.mp4`;          // 動画本体（小文字拡張）
+    return `
+      <div class="gallery-card" data-month="${w.month}">
+        <img src="${img}" alt="${w.title}" class="card-image" loading="lazy"
+             data-video="${video}">
+        <div class="card-info">
+          <h3 class="card-title">${w.title}</h3>
+          <p class="card-description">${w.description}</p>
+          <div class="gallery-icons">
+            <span class="like-btn">♡ 0</span>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+  container.innerHTML = html;
+}
+
+function refreshVideoDigest() {
+  const grid = document.getElementById('video-digest-grid');
+  if (!grid || !videoAllWorks.length) return;
+  const cols = getVideoDigestCols();
+  if (cols === _videoPrevCols && grid.children.length) return;
+  _videoPrevCols = cols;
+  // 1行表示：列数=表示数
+  renderVideoCards(videoAllWorks.slice(0, cols), '#video-digest-grid');
+  if (typeof setupLikeButtons === 'function') setupLikeButtons();
+}
+
+function onResizeVideoDigest() {
+  const cols = getVideoDigestCols();
+  if (cols !== _videoPrevCols) refreshVideoDigest();
+}
+
+function renderVideoDigest(works) {
+  const grid = document.getElementById('video-digest-grid');
+  if (!grid) return;
+
+  // CSV/JSONのうち category=動画 を新しい順に
+  videoAllWorks = (works || [])
+    .filter(w => w.category === '動画')
+    .sort((a,b) => Number(b.date) - Number(a.date));
+
+  refreshVideoDigest();
+  window.addEventListener('resize', onResizeVideoDigest);
 }
 
 // ===== 描画・UI 関数（既存ロジックを流用） =====
