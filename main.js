@@ -589,3 +589,125 @@ window.OrochiSelfTest = (() => {
 
   return { run };
 })();
+
+/* ==== Lightbox (Orochi) =================================================== */
+(function () {
+  const GRIDS = ['#full-gallery-grid', '#digest-gallery-grid', '#ai-digest-grid'];
+  let overlay, imgEl, captionEl, currentList = [], currentIndex = -1;
+
+  function createOverlayOnce() {
+    if (overlay) return;
+    overlay = document.createElement('div');
+    overlay.className = 'orochi-lightbox';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.innerHTML = `
+      <div class="orochi-lightbox__content" aria-live="polite">
+        <button class="orochi-lightbox__close" aria-label="閉じる">✕</button>
+        <button class="orochi-lightbox__prev" aria-label="前へ">‹</button>
+        <img class="orochi-lightbox__img" alt="">
+        <button class="orochi-lightbox__next" aria-label="次へ">›</button>
+        <div class="orochi-lightbox__caption"></div>
+      </div>`;
+    document.body.appendChild(overlay);
+    imgEl = overlay.querySelector('.orochi-lightbox__img');
+    captionEl = overlay.querySelector('.orochi-lightbox__caption');
+
+    overlay.addEventListener('click', (e) => {
+      // 背景クリックで閉じる（コンテンツ内クリックは閉じない）
+      if (e.target === overlay) closeLightbox();
+    });
+    overlay.querySelector('.orochi-lightbox__close').addEventListener('click', closeLightbox);
+    overlay.querySelector('.orochi-lightbox__prev').addEventListener('click', () => step(-1));
+    overlay.querySelector('.orochi-lightbox__next').addEventListener('click', () => step(1));
+
+    document.addEventListener('keydown', (e) => {
+      if (!overlay.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') step(-1);
+      if (e.key === 'ArrowRight') step(1);
+    });
+  }
+
+  function collectImages(container) {
+    // 同じグリッド内の並び順で画像リストを収集
+    return Array.from(container.querySelectorAll('img.card-image'));
+  }
+
+  function findCaptionParts(img) {
+    // 近傍のカードからタイトル・説明を拾う（なければ alt）
+    const card = img.closest('.gallery-card') || img.closest('.card');
+    const title = card?.querySelector('.card-title')?.textContent?.trim() || '';
+    const desc  = card?.querySelector('.card-description')?.textContent?.trim() || '';
+    const alt   = img.getAttribute('alt') || '';
+    const text  = [title || alt, desc].filter(Boolean).join(' — ');
+    return text;
+  }
+
+  function openFrom(img, list) {
+    currentList = list;
+    currentIndex = Math.max(0, currentList.indexOf(img));
+    showCurrent();
+    document.body.classList.add('modal-open');
+    overlay.classList.add('open');
+  }
+
+  function showCurrent() {
+    const cur = currentList[currentIndex];
+    if (!cur) return closeLightbox();
+    // 可能なら高解像度に差し替える仕様も後付け可能（data-fullsrc を優先）
+    const full = cur.getAttribute('data-fullsrc') || cur.currentSrc || cur.src;
+    imgEl.src = full;
+    imgEl.alt = cur.alt || '';
+    captionEl.textContent = findCaptionParts(cur);
+    // ボタンの無効化（端では片方を無効に）
+    overlay.querySelector('.orochi-lightbox__prev').disabled = (currentIndex <= 0);
+    overlay.querySelector('.orochi-lightbox__next').disabled = (currentIndex >= currentList.length - 1);
+  }
+
+  function step(delta) {
+    const next = currentIndex + delta;
+    if (next < 0 || next >= currentList.length) return;
+    currentIndex = next;
+    showCurrent();
+  }
+
+  function closeLightbox() {
+    overlay.classList.remove('open');
+    document.body.classList.remove('modal-open');
+    imgEl.src = '';
+    captionEl.textContent = '';
+    currentList = [];
+    currentIndex = -1;
+  }
+
+  function onGridClick(e) {
+    const img = e.target.closest('img.card-image');
+    if (!img) return; // 画像以外のクリックは無視（Like 等に干渉しない）
+    // クリックされた画像が属するグリッド全体の画像を収集して遷移可能に
+    const grid = e.currentTarget;
+    const list = collectImages(grid);
+    openFrom(img, list);
+  }
+
+  function setupLightbox() {
+    createOverlayOnce();
+    GRIDS.forEach(sel => {
+      const grid = document.querySelector(sel);
+      if (grid) {
+        // 重複アタッチ防止
+        if (!grid.__orochiLightboxBound) {
+          grid.addEventListener('click', onGridClick);
+          grid.__orochiLightboxBound = true;
+        }
+      }
+    });
+  }
+
+  // 初期化：DOM 構築後に実行（複数回呼ばれても安全）
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupLightbox);
+  } else {
+    setupLightbox();
+  }
+})();
