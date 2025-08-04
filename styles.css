@@ -508,6 +508,8 @@ Global Header
   padding: 16px;                /* 20px → 16pxで締める */
   width: auto;                  /* 250px固定を解除 */
   height: auto;
+  display: flex;
+  flex-direction: column;
   align-items: center;         /* 中身の高さで伸縮 */
   transition: transform .15s ease, box-shadow .15s ease;
 }
@@ -635,7 +637,7 @@ Global Header
 /* 説明文：左寄せ・読みやすい行幅と余白 */
 #page-gallery .section-description{
   max-width: 72ch;          /* 行幅を最適化 */
-  margin: 0 0 32px 0;       /* 下方向に余白 */
+  margin: 0 auto 32px;
   font-size: 1.06rem;
   line-height: 1.9;
   color: #555;
@@ -1016,3 +1018,166 @@ Global Header
   border-top: 1px solid rgba(0,0,0,.06);
   text-align: right;
 }
+
+/* ===== gallery 見出しを HOME の「奉納作品」と同じバッジ型に統一 ===== */
+#page-gallery h1.section-title {
+  display: inline-block;        /* 内容幅に縮める（HOMEと同じ） */
+  width: fit-content;
+  max-width: min(720px, 90%);
+  margin: 24px 0 40px 0;        /* 左寄せ・下余白（HOMEと同じ） */
+  text-align: left;
+
+  background: #7d63ce;          /* 既存キーカラー */
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 16px;
+  box-shadow: 0 6px 14px rgba(0,0,0,.12);
+  letter-spacing: 0.02em;
+}
+
+/* 下線バーは不要（バッジに重なるため打ち消す） */
+#page-gallery h1.section-title::after {
+  content: none !important;
+}
+
+/* ===== FINAL OVERRIDE: gallery 見出しを「奉納作品」と同じピル型に固定 ===== */
+#page-gallery h1.section-title,
+.page-header h1.section-title {
+  display: inline-block !important;
+  width: fit-content !important;
+  margin: 0 0 50px 40px !important;   /* 左 40px、下 50px 余白 */
+  padding: 12px 28px !important;
+
+  font-family: var(--font-title) !important;
+  font-size: 2.5rem !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.02em !important;
+  color: #fff !important;
+
+  background: #7d63ce !important;    /* 紫バッジ */
+  border-radius: 9999px !important;   /* ピル型 */
+  box-shadow: 0 4px 6px rgba(0,0,0,.1) !important;
+  text-align: left !important;
+}
+
+/* 既存の “下線バー” などを抑止 */
+#page-gallery h1.section-title::after,
+.page-header h1.section-title::after {
+  content: none !important;
+}
+
+/* === UNIFY: 見出しを全ページ同じ“紫ピル”に統一（index & gallery） === */
+/* 対象: index の #portfolio / #ai-corner, gallery の #page-gallery */
+#portfolio h2.section-title,
+#ai-corner h2.section-title,
+#page-gallery h1.section-title {
+  display: inline-block !important;
+  width: fit-content !important;
+  /* 位置と余白を共通化（左寄せ・上下だけ統一） */
+  margin: 24px 0 40px 0 !important;
+  text-align: left !important;
+
+  /* ピル型の見た目 */
+  background: #7d63ce !important;
+  color: #fff !important;
+  padding: 12px 28px !important;
+  border-radius: 16px !important;        /* index の雰囲気に合わせて角は16px */
+  box-shadow: 0 6px 14px rgba(0,0,0,.12) !important;
+
+  /* タイポ（サイズは各ページの既存値を極力尊重） */
+  font-family: var(--font-title) !important;
+  line-height: 1.2 !important;
+  letter-spacing: .02em !important;
+}
+
+/* gallery に残っている“下線バー”などの装飾を必ず無効化 */
+#page-gallery h1.section-title::after { content: none !important; }
+
+/* ===== FIX: wagara タイルの縦横比崩れを防ぐ（縦基準・横auto） ===== */
+/* 和柄サイズ変数（既に定義があればそのままでOK） */
+/* :root { --wagara-size: 768px; } */
+
+/* ① ヒーロー帯（index 上部） */
+.hero-section {
+  /* 1層目=白ベール → 画面にフィット
+     2層目=和柄タイル → 縦だけ固定、横はautoで比率維持、全面リピート */
+  background-repeat: no-repeat, repeat !important;
+  background-size: 100% 100%, auto var(--wagara-size) !important;
+  background-position: 0 0, 0 0 !important;
+}
+
+/* ② 本文エリア（index / gallery など） */
+#main-content {
+  background-repeat: no-repeat, repeat !important;
+  background-size: 100% 100%, auto var(--wagara-size) !important;
+  background-position: 0 0, 0 0 !important;
+}
+
+/* ③ モバイルはタイルを少し小さく（見栄え最適化） */
+@media (max-width: 768px){
+  .hero-section,
+  #main-content {
+    background-size: 100% 100%, auto 640px !important;
+  }
+}
+
+#page-gallery #main-content { 
+  background-repeat: no-repeat, repeat !important;
+  background-size: 100% 100%, auto var(--wagara-size) !important;
+  background-position: 0 0, 0 0 !important;
+}
+
+/* === GALLERY TITLE: match HOME (#portfolio) spec exactly ================== */
+/* Desktop と Mobile の挙動を index.html の「奉納作品」に合わせて完全一致させる */
+
+#page-gallery h1.section-title{
+  /* タイポ & レイアウト（HOMEと同じ） */
+  font-family: var(--font-title) !important;
+  font-weight: 700 !important;
+  font-size: clamp(1.6rem, 2.8vw, 2.0rem) !important; /* ← 可変サイズ */
+  line-height: 1.2 !important;
+  letter-spacing: .02em !important;
+
+  /* ピル型の見た目（HOMEと同じ） */
+  color: #fff !important;
+  background: #7d63ce !important;
+  padding: 10px 20px !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 4px 6px rgba(0,0,0,.10) !important;
+
+  /* 位置/余白（HOMEと同じ：左寄せベース） */
+  width: fit-content !important;
+  margin: 24px 0 24px !important;
+  text-align: left !important;
+}
+
+/* Mobile の挙動も HOME と同一に（中央寄せ＆余白を変更） */
+@media (max-width: 768px){
+  #page-gallery h1.section-title{
+    display: block !important;
+    width: 100% !important;
+    margin: 0 0 28px 0 !important;     /* 上0 / 下28 */
+    text-align: center !important;
+    padding: 14px 20px !important;
+    border-radius: 14px !important;     /* 角丸を少し弱める仕様もHOMEと同じ */
+  }
+}
+
+/* === GALLERY: 説明文を HOME(#portfolio) と同じ左寄せ仕様に統一 ================= */
+/* index.html の #portfolio .section-description と同等の見え方にする（左寄せ／幅／行間） */
+#full-gallery .section-description{
+  max-width: 72ch;            /* 可読行幅（HOMEと同じ） */
+  margin: 0 0 28px 0 !important;  /* 左寄せ配置：中央寄せの auto を打ち消す */
+  font-size: 1.02rem;
+  line-height: 1.9;
+  color: #555;
+  text-align: left !important;    /* HOME と同じく左寄せ */
+}
+
+/*（任意）SP時の余白微調整が必要なら下記を有効化
+@media (max-width: 768px){
+  #full-gallery .section-description{
+    margin: 8px 0 24px 0 !important;
+  }
+}
+*/
