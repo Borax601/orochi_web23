@@ -306,14 +306,17 @@ function getVideoDigestCols() {
 function renderVideoCards(works, containerSelector) {
   const container = document.querySelector(containerSelector);
   if (!container) return;
+
   const html = works.map(w => {
     const ym   = String(w.date).substring(0,6);
-    const img  = `assets/gallery_${ym}/${w.image_filename}`;        // 既存サムネ
-    const video= `assets/gallery_${ym}/vid_${w.date}.mp4`;          // 動画本体（小文字拡張）
+    const img  = `assets/gallery_${ym}/${w.image_filename}`;
+    const mp4  = `assets/gallery_${ym}/vid_${w.date}.mp4`;
+    const MP4  = `assets/gallery_${ym}/vid_${w.date}.MP4`; // フォールバック用
+
     return `
       <div class="gallery-card" data-month="${w.month}">
         <img src="${img}" alt="${w.title}" class="card-image" loading="lazy"
-             data-video="${video}">
+             data-video="${mp4}" data-video-alt="${MP4}">
         <div class="card-info">
           <h3 class="card-title">${w.title}</h3>
           <p class="card-description">${w.description}</p>
@@ -323,6 +326,7 @@ function renderVideoCards(works, containerSelector) {
         </div>
       </div>`;
   }).join('');
+
   container.innerHTML = html;
 }
 
@@ -655,12 +659,12 @@ window.OrochiSelfTest = (() => {
   return { run };
 })();
 
-/* ==== Lightbox (Orochi) =================================================== */
+/* ==== Lightbox (image + video) ========================================== */
 (function () {
-  const GRIDS = ['#full-gallery-grid', '#digest-gallery-grid', '#ai-digest-grid'];
-  let overlay, imgEl, captionEl, currentList = [], currentIndex = -1;
+  const GRIDS = ['#digest-gallery-grid', '#ai-digest-grid', '#video-digest-grid', '#full-gallery-grid'];
+  let overlay, imgEl, videoEl, captionEl, currentList = [], currentIndex = -1;
 
-  function createOverlayOnce() {
+  function ensureOverlay() {
     if (overlay) return;
     overlay = document.createElement('div');
     overlay.className = 'orochi-lightbox';
@@ -671,108 +675,116 @@ window.OrochiSelfTest = (() => {
         <button class="orochi-lightbox__close" aria-label="閉じる">✕</button>
         <button class="orochi-lightbox__prev" aria-label="前へ">‹</button>
         <img class="orochi-lightbox__img" alt="">
+        <video class="orochi-lightbox__video" style="display:none" playsinline controls></video>
         <button class="orochi-lightbox__next" aria-label="次へ">›</button>
         <div class="orochi-lightbox__caption"></div>
       </div>`;
     document.body.appendChild(overlay);
-    imgEl = overlay.querySelector('.orochi-lightbox__img');
+    imgEl     = overlay.querySelector('.orochi-lightbox__img');
+    videoEl   = overlay.querySelector('.orochi-lightbox__video');
     captionEl = overlay.querySelector('.orochi-lightbox__caption');
 
-    overlay.addEventListener('click', (e) => {
-      // 背景クリックで閉じる（コンテンツ内クリックは閉じない）
-      if (e.target === overlay) closeLightbox();
-    });
-    overlay.querySelector('.orochi-lightbox__close').addEventListener('click', closeLightbox);
+    overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+    overlay.querySelector('.orochi-lightbox__close').addEventListener('click', close);
     overlay.querySelector('.orochi-lightbox__prev').addEventListener('click', () => step(-1));
     overlay.querySelector('.orochi-lightbox__next').addEventListener('click', () => step(1));
 
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       if (!overlay.classList.contains('open')) return;
-      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'Escape') close();
       if (e.key === 'ArrowLeft') step(-1);
       if (e.key === 'ArrowRight') step(1);
     });
   }
 
-  function collectImages(container) {
-    // 同じグリッド内の並び順で画像リストを収集
-    return Array.from(container.querySelectorAll('img.card-image'));
-  }
+  function collect(container) { return Array.from(container.querySelectorAll('img.card-image')); }
 
-  function findCaptionParts(img) {
-    // 近傍のカードからタイトル・説明を拾う（なければ alt）
-    const card = img.closest('.gallery-card') || img.closest('.card');
-    const title = card?.querySelector('.card-title')?.textContent?.trim() || '';
+  function captionFor(img) {
+    const card  = img.closest('.gallery-card');
+    const title = card?.querySelector('.card-title')?.textContent?.trim() || img.alt || '';
     const desc  = card?.querySelector('.card-description')?.textContent?.trim() || '';
-    const alt   = img.getAttribute('alt') || '';
-    const text  = [title || alt, desc].filter(Boolean).join(' — ');
-    return text;
+    return [title, desc].filter(Boolean).join(' — ');
   }
 
   function openFrom(img, list) {
+    ensureOverlay();
     currentList = list;
     currentIndex = Math.max(0, currentList.indexOf(img));
-    showCurrent();
+    show();
     document.body.classList.add('modal-open');
     overlay.classList.add('open');
   }
 
-  function showCurrent() {
+  function setVideoSrcWithFallback(lower, upper) {
+    videoEl.pause();
+    videoEl.src = lower;
+    let triedUpper = false;
+    videoEl.onerror = () => {
+      if (upper && !triedUpper) {
+        triedUpper = true;
+        videoEl.src = upper;
+        videoEl.play().catch(()=>{});
+      }
+    };
+    videoEl.currentTime = 0;
+    videoEl.play().catch(()=>{});
+  }
+
+  function show() {
     const cur = currentList[currentIndex];
-    if (!cur) return closeLightbox();
-    // 可能なら高解像度に差し替える仕様も後付け可能（data-fullsrc を優先）
-    const full = cur.getAttribute('data-fullsrc') || cur.currentSrc || cur.src;
-    imgEl.src = full;
-    imgEl.alt = cur.alt || '';
-    captionEl.textContent = findCaptionParts(cur);
-    // ボタンの無効化（端では片方を無効に）
+    if (!cur) return close();
+
+    const lower   = cur.getAttribute('data-video');      // .mp4
+    const upper   = cur.getAttribute('data-video-alt');  // .MP4
+    const caption = captionFor(cur);
+    captionEl.textContent = caption;
+
+    if (lower) {
+      // 動画モード
+      imgEl.style.display = 'none';
+      videoEl.style.display = '';
+      setVideoSrcWithFallback(lower, upper);
+    } else {
+      // 画像モード
+      videoEl.pause(); videoEl.removeAttribute('src'); videoEl.style.display = 'none';
+      imgEl.style.display = '';
+      imgEl.src = cur.currentSrc || cur.src;
+      imgEl.alt = cur.alt || '';
+    }
+
     overlay.querySelector('.orochi-lightbox__prev').disabled = (currentIndex <= 0);
     overlay.querySelector('.orochi-lightbox__next').disabled = (currentIndex >= currentList.length - 1);
   }
 
-  function step(delta) {
-    const next = currentIndex + delta;
-    if (next < 0 || next >= currentList.length) return;
-    currentIndex = next;
-    showCurrent();
+  function step(d) {
+    const n = currentIndex + d;
+    if (n < 0 || n >= currentList.length) return;
+    currentIndex = n;
+    show();
   }
 
-  function closeLightbox() {
+  function close() {
     overlay.classList.remove('open');
     document.body.classList.remove('modal-open');
-    imgEl.src = '';
+    videoEl.pause(); videoEl.removeAttribute('src');
+    imgEl.removeAttribute('src');
     captionEl.textContent = '';
-    currentList = [];
-    currentIndex = -1;
+    currentList = []; currentIndex = -1;
   }
 
   function onGridClick(e) {
     const img = e.target.closest('img.card-image');
-    if (!img) return; // 画像以外のクリックは無視（Like 等に干渉しない）
-    // クリックされた画像が属するグリッド全体の画像を収集して遷移可能に
-    const grid = e.currentTarget;
-    const list = collectImages(grid);
-    openFrom(img, list);
+    if (!img) return;
+    openFrom(img, collect(e.currentTarget));
   }
 
-  function setupLightbox() {
-    createOverlayOnce();
-    GRIDS.forEach(sel => {
-      const grid = document.querySelector(sel);
-      if (grid) {
-        // 重複アタッチ防止
-        if (!grid.__orochiLightboxBound) {
-          grid.addEventListener('click', onGridClick);
-          grid.__orochiLightboxBound = true;
-        }
-      }
-    });
-  }
-
-  // 初期化：DOM 構築後に実行（複数回呼ばれても安全）
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupLightbox);
-  } else {
-    setupLightbox();
-  }
+  // すべてのグリッドに委任（重複バインド防止フラグ付き）
+  (function init(){
+    const bind = sel => { const g = document.querySelector(sel); if (g && !g.__lb) { g.addEventListener('click', onGridClick); g.__lb = true; } };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => GRIDS.forEach(bind));
+    } else {
+      GRIDS.forEach(bind);
+    }
+  })();
 })();
