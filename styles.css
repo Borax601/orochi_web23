@@ -821,6 +821,8 @@ Global Header
    padding: 16px;
    width: auto;
    height: auto;
+   display: flex;
+   flex-direction: column;
    align-items: center;         /* 中身の高さで伸縮 */
    transition: transform .15s ease, box-shadow .15s ease;
 }
@@ -838,7 +840,7 @@ Global Header
   /* ===== サイズとセンタリング ===== */
   width: 100%;             /* カード幅いっぱい（※max-widthで縛る） */
   max-width: 224px;        /* 全作品 224×224 フレームに統一 */
-  aspect-ratio: 1 / 1;     /* 正方形を保証 */
+  aspect-ratio: 1 / 1;     /* 正方形フレーム */
   height: auto;            /* object-fit と併用で歪み無し */
 
   object-fit: contain;     /* 作品を切らずに収める */
@@ -958,4 +960,59 @@ Global Header
   margin:0 auto 32px;
   -webkit-backdrop-filter:blur(2px);
   backdrop-filter:blur(2px);
+}
+
+/* ===== Gallery 一覧 (#full-gallery-grid) を HOME と同じ見た目にそろえる ===== */
+
+/* 1) カードの外観（HOMEの白カード＋薄影に合わせる） */
+#full-gallery-grid .gallery-card {
+  background: #fff;
+  color: #333;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+  padding: 16px;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;           /* 中身を中央に */
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+#full-gallery-grid .gallery-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.08);
+}
+
+/* 2) 画像フレーム（正方・中央・切り抜かない） */
+#full-gallery-grid .gallery-card .card-image {
+  width: 100%;
+  max-width: 224px;              /* HOME と同じ 224 枠 */
+  aspect-ratio: 1 / 1;           /* 正方形フレーム */
+  height: auto;
+  object-fit: contain;           /* 作品を切らずに収める */
+  display: block;
+  margin: 0 auto;
+
+  /* 額縁スタイル */
+  padding: 8px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+  margin-bottom: 12px;
+}
+
+/* 3) テキストとlike行（HOMEの中央寄せに合わせる） */
+#full-gallery-grid .card-info {
+  padding: 0;
+  align-items: center;
+  text-align: center;
+}
+#full-gallery-grid .card-title { font-size: 1.05rem; margin: 0 0 6px; }
+#full-gallery-grid .card-description { font-size: .92rem; color:#555; line-height:1.7; }
+#full-gallery-grid .gallery-icons {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0,0,0,.06);
+  text-align: right;
 }
