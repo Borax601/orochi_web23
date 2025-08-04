@@ -1282,3 +1282,78 @@ body.modal-open { overflow: hidden; }
   .orochi-lightbox__prev { left: 8px; }
   .orochi-lightbox__next { right: 8px; }
 }
+
+/* ==== HOME 見出しの共通ピル型に video-corner を追加 ==== */
+#portfolio h2.section-title,
+#ai-corner h2.section-title,
+#video-corner h2.section-title {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 2.8vw, 2.0rem);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: #7d63ce;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 6px rgba(0,0,0,.10);
+  width: fit-content;
+  margin: 24px 0 24px;
+  text-align: left;
+}
+
+/* 説明文も HOME と同じ読みやすさに揃える */
+#video-corner .section-description {
+  max-width: 72ch;
+  margin: 0 0 48px 0;  /* 「全ての作品を見る」直上と同じ余白テイスト */
+  text-align: left;
+  line-height: 1.9;
+  color: #555;
+}
+
+/* グリッドの見え方は #portfolio / #ai-corner と同じにする（将来JSで中身を入れる） */
+#video-corner .horizontal-scroll-container { overflow-x: visible; padding: 0; }
+#video-corner .gallery-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  column-gap: 28px;
+  row-gap: 28px;
+  padding: 0;
+  width: 100%;
+}
+#video-corner .gallery-card {
+  background: #fff;
+  color: #333;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+  padding: 16px;
+  display: flex; flex-direction: column; align-items: center;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+#video-corner .gallery-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.08);
+}
+#video-corner .gallery-card .card-image {
+  width: 100%;
+  max-width: 224px;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: contain;
+  display: block; margin: 0 auto 12px;
+  padding: 8px; background:#fff; border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+}
+#video-corner .card-info { padding: 0; text-align: center; }
+#video-corner .card-title { font-size: 1.05rem; margin: 0 0 6px; }
+#video-corner .card-description { font-size: .92rem; color:#555; line-height:1.7; }
+
+/* SP 振る舞い（HOME共通仕様） */
+@media (max-width: 768px){
+  #video-corner h2.section-title {
+    margin-left: auto; margin-right: auto; text-align: center;
+    padding: 14px 20px; border-radius: 14px;
+  }
+  #video-corner .section-description { margin: 0 auto 48px; }
+}
