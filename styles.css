@@ -1074,7 +1074,7 @@ Global Header
   display: inline-block !important;
   width: fit-content !important;
   /* 位置と余白を共通化（左寄せ・上下だけ統一） */
-  margin: 24px 0 40px 0 !important;
+  margin: 24px 0 40px !important;
   text-align: left !important;
 
   /* ピル型の見た目 */
@@ -1159,7 +1159,7 @@ Global Header
     margin: 0 0 28px 0 !important;     /* 上0 / 下28 */
     text-align: center !important;
     padding: 14px 20px !important;
-    border-radius: 14px !important;     /* 角丸を少し弱める仕様もHOMEと同じ */
+    border-radius: 14px !important;
   }
 }
 
@@ -1181,3 +1181,54 @@ Global Header
   }
 }
 */
+
+/* === AI 全作品一覧タイトルを gallery と同仕様に統一 ===================== */
+/* 見出し（ピル型＋可変フォント） */
+#page-ai-gallery h2.section-title{
+  /* タイポ（gallery の最終仕様に合わせる） */
+  font-family: var(--font-title) !important;
+  font-weight: 700 !important;
+  font-size: clamp(1.6rem, 2.8vw, 2.0rem) !important; /* 可変 */
+  line-height: 1.2 !important;
+  letter-spacing: .02em !important;
+
+  /* ピル型見た目（紫バッジ） */
+  color: #fff !important;
+  background: #7d63ce !important;
+  padding: 10px 20px !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 4px 6px rgba(0,0,0,.10) !important;
+
+  /* 配置（PC 左寄せ / SP 中央は下の MQ で） */
+  width: fit-content !important;
+  margin: 24px 0 24px !important;
+  text-align: left !important;
+}
+
+/* 既存の下線装飾を打ち消す */
+#page-ai-gallery h2.section-title::after{
+  content: none !important;
+}
+
+/* スマホ幅では中央寄せ（gallery と同様の挙動に） */
+@media (max-width: 768px){
+  #page-ai-gallery h2.section-title{
+    display: block !important;
+    width: 100% !important;
+    margin: 0 0 28px 0 !important;
+    text-align: center !important;
+    padding: 14px 20px !important;
+    border-radius: 14px !important;
+  }
+}
+
+/* === 説明文の揃え方（gallery と同じ “左寄せ・行幅・行間”） ============== */
+/* AI ページの説明文は #full-gallery 配下にあるため、gallery と同じセレクタで統一可能 */
+#page-ai-gallery #full-gallery .section-description{
+  max-width: 72ch;
+  margin: 0 0 28px 0 !important;     /* 左寄せ配置 */
+  font-size: 1.02rem;
+  line-height: 1.9;
+  color: #555;
+  text-align: left !important;
+}
