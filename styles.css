@@ -699,6 +699,214 @@ Global Header
   color: #555;                   /* 既存より一段柔らかいトーン */
 }
 
+/* ===== HOME (#portfolio) のみ：横スクロール→グリッド化 ===== */
+#portfolio .horizontal-scroll-container{
+  overflow: visible;            /* スクロールUIを消す */
+  padding: 0;                   /* 余白もリセットしてカード側で管理 */
+}
+
+#portfolio .gallery-grid{
+  display: grid !important;     /* 既存 flex を上書き */
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* 240→260 */
+  gap: 28px;                    /* カード間隔。24〜32の範囲で微調整可 */
+  padding: 0;                   /* 既存 20px を0にして外周をすっきり */
+  width: 100%;                  /* max-content を解除 */
+}
+
+/* カード：白地・薄影・コンパクト */
+#portfolio .gallery-card{
+  background: #fff;             /* 紫ベタ面を白に */
+  color: #333;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+  padding: 16px;                /* 20px → 16pxで締める */
+  width: auto;                  /* 250px固定を解除 */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;         /* 中身の高さで伸縮 */
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+#portfolio .gallery-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.08);
+}
+
+/* 画像：フレーム風に見せる（HTMLはそのまま） */
+#portfolio .gallery-card .card-image{
+  width: 100%;
+  height: auto;                 /* 280px固定を解除 */
+  aspect-ratio: 1 / 1;          /* 正方に揃え、縦長画像も整う */
+  object-fit: cover;            /* 作品の切れを避けたい場合は contain に */
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+  padding: 8px;                 /* “額縁”っぽい余白 */
+  margin-bottom: 12px;
+}
+
+/* テキストブロックは既存構造を維持して軽量化 */
+#portfolio .card-info{
+  padding: 0;                   /* 10px → 0 */
+  align-items: flex-start;      /* 左寄せ */
+  text-align: left;             /* 中央 → 左 */
+}
+#portfolio .card-title{
+  font-size: 1.05rem;           /* 1.2rem → 少し締める */
+  margin: 0 0 6px;
+}
+#portfolio .card-description{
+  font-size: .92rem;            /* 0.9rem付近を維持、やや濃いめの本文色 */
+  color: #555;
+  line-height: 1.7;
+}
+
+/* いいね行：境界線を弱め、右端寄せは維持 */
+#portfolio .gallery-icons{
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0,0,0,.06);  /* #eee を薄く */
+  text-align: right;
+}
+
+/* ===== Gallery page 専用 見出し・説明 ===== */
+#page-gallery h1.section-title{
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 3.8vw, 2.6rem);
+  line-height: 1.25;
+  letter-spacing: 0.03em;
+  color: #372e51;              /* 見出し文字色：濃い紫系 */
+  margin: 0;                   /* pとの距離はp側で調整 */
+  text-align: left;
+  background: transparent;     /* 共通の紫バナーを無効化 */
+  padding: 0;                  /* 余白もリセット */
+  border-radius: 0;
+  box-shadow: none;
+  position: relative;
+}
+
+#page-gallery h1.section-title::after{
+  content: "";
+  display: block;
+  width: 88px;                 /* アクセントの長さ */
+  height: 6px;
+  margin-top: 18px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg,#7d63ce, #a08ff0); /* 既存キーカラー由来 */
+}
+
+/* 説明文：読みやすい行幅と行間 */
+#page-gallery .section-description{
+  margin: 18px 0 36px 0;
+  max-width: 60ch;             /* 行幅制御で読みやすく */
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: #555;
+}
+
+/* モバイルは中央寄せで柔らかく */
+@media (max-width: 768px){
+  #page-gallery h1.section-title{ text-align: center; }
+  #page-gallery h1.section-title::after{
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #page-gallery .section-description{
+    margin: 16px auto 32px;
+    text-align: left;          /* 可読性優先で本文は左寄せのまま */
+  }
+}
+
+/* ===== Gallery page 専用: 見出しと説明（他ページへ影響なし） ===== */
+#page-gallery h1.section-title{
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(2.0rem, 3.2vw, 2.8rem);
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  color: #372e51;
+  /* 中央配置＋上下余白 */
+  width: fit-content;
+  margin: 16px auto 32px;   /* 上:16, 下:32 */
+  text-align: center;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  position: relative;
+}
+
+/* 下線は見出し幅にフィット（HTMLにタグは不要。CSSの ::after 疑似要素で描画） */
+#page-gallery h1.section-title::after{
+  content: "";
+  display: block;
+  width: 100%;              /* 文字幅ちょうど */
+  height: 6px;
+  margin-top: 18px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg,#7d63ce,#a08ff0);
+}
+
+/* 説明文：左寄せ・読みやすい行幅と余白 */
+#page-gallery .section-description{
+  max-width: 72ch;          /* 行幅を最適化 */
+  margin: 0 auto 32px;
+  font-size: 1.06rem;
+  line-height: 1.9;
+  color: #555;
+  text-align: left;
+}
+
+/* フィルタバーとグリッドとの距離調整（任意だが推奨） */
+#page-gallery nav.filter-bar{
+  margin: 0 0 36px 0;
+}
+
+/* ==== AIコーナー（時すでにオロチ） ===================== */
+#ai-corner {
+  margin-top: 72px;              /* 上の「全ての作品を見る」と余白をとる */
+}
+
+/* Art Shrine と 時すでにオロチ のタイトルを共通バッジに統一 */
+#portfolio h2.section-title,
+#ai-corner h2.section-title{
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 2.8vw, 2.0rem); /* Art Shrine と同じサイズ感 */
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+
+  color: #fff;
+  background: #7d63ce;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 6px rgba(0,0,0,.10);
+
+  width: fit-content;
+  margin: 24px 0 24px;   /* 左寄せ・上下余白 */
+  text-align: left;
+}
+
+/* モバイルは中央寄せに倒す（任意） */
+@media (max-width: 768px){
+  #portfolio h2.section-title,
+  #ai-corner h2.section-title{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+}
+
+#ai-corner .section-description {
+  max-width: 72ch;               /* 読みやすい行幅 */
+  margin: 0 auto 64px;           /* 中央寄せ & 下に十分な余白 */
+  text-align: center;            /* トップページは中央に揃えて品よく */
+  line-height: 1.9;
+  color: #555;                   /* 既存より一段柔らかいトーン */
+}
+
 /* ===== HOME: 奉納作品 説明文 ===== */
 #portfolio .section-description{
   max-width: 72ch;      /* 可読行幅 */
@@ -1579,5 +1787,45 @@ body.modal-open { overflow: hidden; }
     width:44px; height:44px; /* タップ領域を十分に確保 */
     padding:6px;
     -webkit-tap-highlight-color:transparent;
+  }
+}
+
+/* ==== Dropdown (作品) – Hover / Current indication ==== */
+/* ホバー／フォーカス時：背景を薄く、左にアクセント棒、わずかに右へスライド */
+.global-nav .subnav a {
+  position: relative;
+  transition: background-color .18s ease, padding-left .18s ease, color .18s ease;
+}
+.global-nav .subnav a:hover,
+.global-nav .subnav a:focus-visible {
+  background-color: rgba(255,255,255,0.10);
+  padding-left: 26px;                 /* 右へスライド */
+}
+.global-nav .subnav a:hover::before,
+.global-nav .subnav a:focus-visible::before {
+  content: "";
+  position: absolute;
+  left: 10px; top: 50%; transform: translateY(-50%);
+  width: 6px; height: 6px; border-radius: 9999px;
+  background: #fff;                   /* 白いピン */
+}
+
+/* 現在ページ（選択済み）表示：色を反転・左帯・✓アイコン */
+.global-nav .subnav a.is-current {
+  background: linear-gradient(90deg, rgba(255,255,255,0.16), rgba(255,255,255,0.08));
+  font-weight: 700;
+  padding-left: 34px;
+}
+.global-nav .subnav a.is-current::before {
+  content: "✓";
+  position: absolute;
+  left: 12px; top: 50%; transform: translateY(-50%);
+  font-size: 12px; color: #fff;
+}
+
+/* 親「作品」ラベル側も、子が選択中は下線でハイライト（PC時） */
+@media (min-width: 769px){
+  .global-nav li.has-sub.is-current > a {
+    border-bottom-color: #fff;    /* 既存の hover/active 下線スタイルを流用 */
   }
 }

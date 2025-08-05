@@ -229,11 +229,12 @@ async function initializeApp() {
 
   setupLikeButtons();
   setupHamburgerMenu();
+  markCurrentNav();
   window.addEventListener('resize', onResizeDigest); // 画面リサイズごとに TOP digest を再描画
 }
 
 function refreshDigestGrid() {
-  const gridEl = document.querySelector('#digest-gallery-grid');
+  const gridEl = document.getElementById('digest-gallery-grid');
   if (!gridEl || !digestWorks.length) return;
 
   const maxShow = calcColumns() * 2; // 列数 ×2 行
@@ -811,3 +812,32 @@ window.OrochiSelfTest = (() => {
     }
   })();
 })();
+
+function markCurrentNav(){
+  const bodyId = document.body.id || "";
+  // サブメニューのアンカー
+  const linkIllust = document.querySelector('.subnav a[href$="gallery.html"]');
+  const linkAI     = document.querySelector('.subnav a[href$="toki-sude-ni-orochi.html"]');
+  const linkVideo  = document.querySelector('.subnav a[href$="video.html"]');
+  const parentItem = document.querySelector('.global-nav li.has-sub > a');
+
+  // すべての current をリセット
+  [linkIllust, linkAI, linkVideo].forEach(a => {
+    if (!a) return;
+    a.classList.remove('is-current');
+    a.removeAttribute('aria-current');
+  });
+  if (parentItem) parentItem.parentElement.classList.remove('is-current');
+
+  // body id に応じて付与
+  let target = null;
+  if (bodyId === 'page-gallery')        target = linkIllust;
+  else if (bodyId === 'page-ai-gallery')    target = linkAI;
+  else if (bodyId === 'page-video-gallery') target = linkVideo;
+
+  if (target) {
+    target.classList.add('is-current');
+    target.setAttribute('aria-current', 'page');  // アクセシビリティ対応
+    if (parentItem) parentItem.parentElement.classList.add('is-current');
+  }
+}
