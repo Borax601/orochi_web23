@@ -207,6 +207,8 @@ async function initializeApp() {
     worksToDisplay = worksData.filter(w => w.category === 'イラスト');
   } else if (pageId === 'page-ai-gallery') {
     worksToDisplay = worksData.filter(w => w.category === 'AI');
+  } else if (pageId === 'page-video-gallery') {
+    worksToDisplay = worksData.filter(w => w.category === '動画');
   } else if (document.getElementById('digest-gallery-grid')) {
     digestWorks = worksToDisplay = worksData
       .filter(w => w.category === 'イラスト' && w.date)
@@ -367,9 +369,15 @@ function renderGallery(works, containerSelector) {
   const galleryHtml = works.map(work => {
     const yearMonth = String(work.date).substring(0, 6);
     const imagePath = `assets/gallery_${yearMonth}/${work.image_filename}`;
+    let dataAttr = '';
+    if (work.category === '動画') {
+      const mp4 = `assets/gallery_${yearMonth}/vid_${work.date}.mp4`;
+      const MP4 = `assets/gallery_${yearMonth}/vid_${work.date}.MP4`;
+      dataAttr = ` data-video="${mp4}" data-video-alt="${MP4}"`;
+    }
     return `
       <div class="gallery-card" data-month="${work.month}">
-        <img src="${imagePath}" alt="${work.title}" class="card-image" loading="lazy">
+        <img src="${imagePath}" alt="${work.title}" class="card-image" loading="lazy"${dataAttr}>
         <div class="card-info">
           <h3 class="card-title">${work.title}</h3>
           <p class="card-description">${work.description}</p>
@@ -445,10 +453,25 @@ function setupFilter(works) {
 function setupHamburgerMenu() {
   const btn = document.querySelector('.hamburger-menu');
   const nav = document.querySelector('.global-nav');
-  if (!btn || !nav) return;
-  btn.addEventListener('click', function() {
-    this.classList.toggle('active');
-    nav.classList.toggle('active');
+  if (!btn || !nav || btn.dataset.bound) return;   // 二重バインド防止
+
+  btn.dataset.bound = '1';
+  btn.setAttribute('aria-expanded', 'false');
+
+  btn.addEventListener('click', () => {
+    const willOpen = !nav.classList.contains('active');
+    btn.classList.toggle('active', willOpen);
+    nav.classList.toggle('active', willOpen);
+    btn.setAttribute('aria-expanded', String(willOpen));
+  });
+
+  // PC幅に戻ったら自動で閉じる
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768 && nav.classList.contains('active')) {
+      nav.classList.remove('active');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
+    }
   });
 }
 

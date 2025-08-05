@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>動くオロチ奉納殿 – 全作品一覧</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body id="page-video-gallery">
+  <header class="global-header">
+    <div class="header-container">
+      <a href="index.html" class="site-title">開運オロチ神社</a>
+      <button class="hamburger-menu" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="global-nav">
+        <ul>
+          <li><a href="index.html">本殿</a></li>
+
+          <li class="has-sub">
+            <a href="gallery.html">作品</a>
+            <ul class="subnav">
+              <li><a href="gallery.html">奉納作品</a></li>
+              <li><a href="toki-sude-ni-orochi.html">時すでにオロチ</a></li>
+              <li><a href="video.html">動くオロチ奉納殿</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#">開運オロチ屋</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="content-section" id="full-gallery">
+      <div class="section-container">
+        <h1 class="section-title">全作品一覧</h1>
+        <p class="section-description">
+          動くオロチ奉納殿に奉納された映像作品のアーカイブです。
+        </p>
+
+        <!-- 月フィルタ（JSが注入/バインド） -->
+        <nav class="filter-bar"></nav>
+
+        <!-- 一覧：横スクロール用の gallery-grid ではなく full-page-grid を使用 -->
+        <div class="full-page-grid" id="full-gallery-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>

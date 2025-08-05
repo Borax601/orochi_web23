@@ -356,11 +356,11 @@ Global Header
     align-items: center;
     max-width: 1400px;
     margin: 0 auto;
-    height: 60px;
+    height: 90px; /* 60px → 90px */
     padding: 0 20px;
 }
 .site-title {
-    font-size: 1.5rem;
+    font-size: 1.95rem; /* 1.5rem の 130% */
     color: #fff;
     font-weight: bold;
     text-decoration: none;
@@ -401,6 +401,13 @@ Global Header
         cursor: pointer;
         position: absolute;
         right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1100;
+        width: 44px;
+        height: 44px;
+        padding: 6px;
+        -webkit-tap-highlight-color: transparent;
     }
     .hamburger-menu span {
         display: block;
@@ -422,7 +429,7 @@ Global Header
     .global-nav.active {
         display: block;
         position: absolute;
-        top: 60px;
+        top: 90px; /* 60px → 90px */
         right: 0;
         background-color: #372e51;
         width: 100%;
@@ -1470,4 +1477,107 @@ body.modal-open { overflow: hidden; }
   padding-top: 10px;
   border-top: 1px solid rgba(0,0,0,.06);
   text-align: right;
+}
+
+/* === 動くオロチ奉納殿（video.html） 見出しスタイルを他ページと統一 === */
+#page-video-gallery h1.section-title{
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 2.8vw, 2.0rem);
+  line-height: 1.2;
+  letter-spacing: .02em;
+  color: #fff;
+  background: #7d63ce;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 6px rgba(0,0,0,.10);
+  width: fit-content;
+  margin: 24px 0 24px;
+  text-align: left;
+}
+/* SPでは中央寄せ（他ページと同様） */
+@media (max-width: 768px){
+  #page-video-gallery h1.section-title{
+    display: block;
+    width: 100%;
+    margin: 0 0 28px 0;
+    text-align: center;
+    padding: 14px 20px;
+    border-radius: 14px;
+  }
+}
+
+/* ==== Global Header: size adjustments ==== */
+.header-container{
+  height: 90px;                 /* 60px → 90px（1.5倍） */
+}
+.global-nav.active{ top: 90px; }/* SP 展開時の基準も 90px に揃える */
+
+.site-title{
+  font-size: 1.95rem;           /* 1.5rem の 130% */
+}
+
+/* 右端から 20px 離す（既存20pxのpaddingに加えて更に20px間隔を確保） */
+.global-nav{ margin-right: 20px; }
+
+/* ==== Dropdown (作品) ==== */
+.global-nav li{ position: relative; }
+.global-nav li.has-sub > a::after{
+  content: "▾"; font-size: .8em; margin-left: .35em;
+}
+
+/* PC: ホバーで表示 */
+.global-nav .subnav{
+  display: none;
+  position: absolute;
+  top: 100%; left: 0;
+  min-width: 200px;
+  background: #372e51;          /* ヘッダー色 */
+  border-radius: 10px;
+  padding: 8px 0;
+  box-shadow: 0 10px 24px rgba(0,0,0,.22);
+  z-index: 1001;
+}
+.global-nav .subnav li{ margin: 0; }
+.global-nav .subnav a{
+  display: block;
+  padding: 10px 14px;
+  white-space: nowrap;
+  border-bottom: none;
+}
+.global-nav li.has-sub:hover > .subnav{ display: block; }
+
+/* SP: ハンバーガー展開中は常時表示（縦積み） */
+@media (max-width: 768px){
+  .global-nav .subnav{
+    position: static;
+    display: block;
+    background: transparent;
+    box-shadow: none;
+    padding: 0 0 8px 0;
+  }
+  .global-nav .subnav a{
+    padding: 8px 20px;
+  }
+}
+/* Header: hamburger の絶対配置基準にする */
+.header-container{
+  position: relative;
+}
+
+@media (max-width: 768px){
+  .hamburger-menu{
+    display:block;
+    background:none;
+    border:none;
+    cursor:pointer;
+    position:absolute;
+    right:20px;              /* 右に 20px の余白 */
+    top:50%;                 /* ヘッダー内で縦中央 */
+    transform:translateY(-50%);
+    z-index:1100;            /* メニューより上で確実にタップ可 */
+    width:44px; height:44px; /* タップ領域を十分に確保 */
+    padding:6px;
+    -webkit-tap-highlight-color:transparent;
+  }
 }
