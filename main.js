@@ -230,6 +230,7 @@ async function initializeApp() {
   setupLikeButtons();
   setupHamburgerMenu();
   markCurrentNav();
+  setupHeaderAutoHide();   // ← 追加：ヘッダー自動表示/非表示
   window.addEventListener('resize', onResizeDigest); // 画面リサイズごとに TOP digest を再描画
 }
 
@@ -840,4 +841,40 @@ function markCurrentNav(){
     target.setAttribute('aria-current', 'page');  // アクセシビリティ対応
     if (parentItem) parentItem.parentElement.classList.add('is-current');
   }
+}
+
+/* ==== Header auto hide on hero section (TOP only) ==== */
+function setupHeaderAutoHide(){
+  const header = document.querySelector('.global-header');
+  const hero   = document.querySelector('#key-visual, .hero-section');
+  if (!header || !hero) return; // ヒーローが無い下層ページは何もしない
+
+  // ハンバーガー展開中は強制表示
+  const btn = document.querySelector('.hamburger-menu');
+  const nav = document.querySelector('.global-nav');
+  if (btn && nav){
+    btn.addEventListener('click', () => {
+      const open = nav.classList.contains('active');
+      header.classList.toggle('force-show', open);
+      if (open) header.classList.remove('is-hidden');
+    });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768){
+        header.classList.remove('force-show');
+      }
+    });
+  }
+
+  // ヒーローが画面にある間はヘッダーを隠す
+  const io = new IntersectionObserver(
+    (entries) => {
+      const e = entries[0];
+      // 20% 以上可視 → 隠す / それ未満 → 表示
+      if (!header.classList.contains('force-show')){
+        header.classList.toggle('is-hidden', e.isIntersecting && e.intersectionRatio >= 0.2);
+      }
+    },
+    { root: null, threshold: [0, 0.2, 1] }
+  );
+  io.observe(hero);
 }
