@@ -95,6 +95,12 @@ body#page-ai-gallery    #main-content{
   height:40px;
 }
 
+/* === 2025-08-07  Hero intro typography =============================== */
+#hero-intro p{
+  color:#372e51 !important;
+  font-family:var(--font-marugo,'Hiragino Maru Gothic Pro','Noto Sans JP',sans-serif) !important;
+}
+
 /* === Splash Screen =================================================== */
 #splash{
   position:fixed; inset:0; z-index:3000;
