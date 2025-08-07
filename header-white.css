@@ -88,3 +88,8 @@ body#page-ai-gallery    #main-content{
 .header-container{
   height: 130px !important;            /* 90 + 20 + 20 */
 }
+
+/* === 2025-08-07  Hero spacer = 40px ============================== */
+.hero-offset{
+  height:40px;
+}
