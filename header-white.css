@@ -3,6 +3,7 @@
   background:#ffffff !important; 
   padding-top: 20px !important;
   padding-bottom: 20px !important;
+  transition: opacity .4s ease-out;
 }
 
 /* SP ハンバーガー展開メニューも白に */

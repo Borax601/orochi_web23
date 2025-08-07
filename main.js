@@ -230,7 +230,28 @@ async function initializeApp() {
   setupLikeButtons();
   setupHamburgerMenu();
   markCurrentNav();
-  setupHeaderAutoHide();   // ← 追加：ヘッダー自動表示/非表示
+  // setupHeaderAutoHide();   ← これをコメントアウト
+
+  /* === Header fade-out on scroll (2025-08-07) ================= */
+  (function setupHeaderFade(){
+    const header = document.querySelector('.global-header');
+    if(!header) return;
+
+    const fadeEnd = window.innerHeight * 0.3; // 画面高の30%スクロールで完全透明
+    header.style.willChange = 'opacity';
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const opacity = Math.max(0, 1 - y / fadeEnd);
+        header.style.opacity = opacity.toFixed(3);
+        ticking = false;
+      });
+    }, { passive: true });
+  })();
   window.addEventListener('resize', onResizeDigest); // 画面リサイズごとに TOP digest を再描画
 }
 
