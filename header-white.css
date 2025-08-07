@@ -1,0 +1,90 @@
+/* header-white.css  ─ 固定ヘッダーを真っ白にするだけ */
+.global-header{ 
+  background:#ffffff !important; 
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
+
+/* SP ハンバーガー展開メニューも白に */
+@media (max-width:768px){
+  .global-nav.active{ 
+    background:#ffffff !important; 
+    top: 130px !important; 
+  }
+}
+
+/* ---- 2025-08-07 header text override ---- */
+
+/* ヒラギノ丸ゴ（macOS 標準）＋フォールバック */
+:root{
+  --font-marugo: 'Hiragino Maru Gothic Pro',
+                 'ヒラギノ丸ゴ Pro',
+                 'Hiragino Maru Gothic',
+                 'ヒラギノ丸ゴ',
+                 'M PLUS Rounded 1c',
+                 'Noto Sans JP',
+                 sans-serif;
+  --c-header-text:#372e51;   /* 既存キーカラー */
+}
+
+/* タイトル & ナビリンク */
+.site-title,
+.global-nav a{
+  color:var(--c-header-text)!important;
+  font-family:var(--font-marugo)!important;
+}
+
+/* ハンバーガー３本線も紫に */
+.hamburger-menu span{
+  background-color:var(--c-header-text)!important;
+}
+
+/* ホバー & アクティブ下線も紫 */
+.global-nav a:hover,
+.global-nav a.active{
+  border-bottom-color:var(--c-header-text)!important;
+}
+
+/* === 2025-08-07  Fixed-header offset for All-Works pages === */
+/* ① 見出しブロックをヘッダー高さ＋余白ぶん下へ押し下げる               */
+/* ② ページ ID を使い、他ページには影響を与えない                          */
+body#page-gallery   .page-header,
+body#page-video-gallery .page-header,
+body#page-ai-gallery   .page-header{
+  margin-top: 150px !important;   /* 130px(ヘッダー) ＋ 20px 余白 */
+}
+
+/* === 2025-08-07  Fixed-header offset (110px) === */
+/* 固定ヘッダー 90px ＋ 余白 20px */
+body#page-gallery       #main-content,
+body#page-video-gallery #main-content,
+body#page-ai-gallery    #main-content{
+  padding-top: 150px !important;
+}
+
+/* === 2025-08-07  Dropdown color final override ================= */
+.global-nav .subnav{
+  background:#ffffff !important;          /* ボックスを白に */
+  border:1px solid rgba(0,0,0,.08) !important;
+}
+
+/* リンク文字を紫 (#372e51) に統一 */
+.global-nav .subnav a{
+  color:#372e51 !important;
+  font-family:var(--font-marugo,'Hiragino Maru Gothic','Noto Sans JP',sans-serif) !important;
+}
+
+/* ホバー・選択行の強調は薄グレー背景で */
+.global-nav .subnav a:hover,
+.global-nav .subnav a.is-current,
+.global-nav .subnav a.active{
+  background:rgba(0,0,0,.06) !important;
+  color:#372e51 !important;
+}
+
+/* === 2025-08-07  Header padding +20px top & bottom ================ */
+/* 1) ヘッダー本体に上下 20px のパディングを与える */
+/* 2) 内部コンテナの高さを再計算（90px 本体 + 40px 余白）*/
+.header-container{
+  height: 130px !important;            /* 90 + 20 + 20 */
+}
