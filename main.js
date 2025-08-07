@@ -237,7 +237,7 @@ async function initializeApp() {
     const header = document.querySelector('.global-header');
     if(!header) return;
 
-    const fadeEnd = window.innerHeight * 0.3; // 画面高の30%スクロールで完全透明
+    const fadeEnd = window.innerHeight * 0.2;  // 20% で完全透明
     header.style.willChange = 'opacity';
 
     let ticking = false;
