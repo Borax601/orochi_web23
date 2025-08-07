@@ -899,3 +899,16 @@ function setupHeaderAutoHide(){
   );
   io.observe(hero);
 }
+
+/* === Splash fade logic =============================================== */
+(function splashFade(){
+  const splash = document.getElementById('splash');
+  if(!splash) return;
+
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      splash.classList.add('fade-out');          // 0.7s 待ってからフェード開始
+      setTimeout(() => splash.remove(), 800);    // フェード 0.8s 後に DOM から削除
+    }, 700);
+  });
+})();

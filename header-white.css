@@ -94,3 +94,17 @@ body#page-ai-gallery    #main-content{
 .hero-offset{
   height:40px;
 }
+
+/* === 2025-08-07  Splash Screen ======================================== */
+#splash{
+  position:fixed; inset:0; z-index:3000;
+  display:flex; align-items:center; justify-content:center;
+  background:#ffffff;
+  opacity:1;                 /* 初期 = 完全表示 */
+  transition:opacity .8s ease-out;
+}
+#splash.fade-out{
+  opacity:0;                 /* フェード先 */
+  pointer-events:none;
+}
+#splash img{ width:280px; height:auto; }
