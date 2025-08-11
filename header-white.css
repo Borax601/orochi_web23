@@ -26,6 +26,7 @@
                  'Noto Sans JP',
                  sans-serif;
   --c-header-text:#372e51;   /* 既存キーカラー */
+  --header-pad: 28px;
 }
 
 /* タイトル & ナビリンク */
@@ -86,32 +87,23 @@ body#page-ai-gallery    #main-content{
 /* === 2025-08-07  Header padding +20px top & bottom ================ */
 /* 1) ヘッダー本体に上下 20px のパディングを与える */
 /* 2) 内部コンテナの高さを再計算（90px 本体 + 40px 余白）*/
-.header-container{
-  height: 130px !important;            /* 90 + 20 + 20 */
-}
-
-/* === 2025-08-07  Hero spacer = 40px ============================== */
-.hero-offset{
-  height:40px;
-}
-
-/* === 2025-08-07  Hero intro typography =============================== */
-#hero-intro p{
-  color:#372e51 !important;
-  font-family:var(--font-marugo,'Hiragino Maru Gothic Pro','Noto Sans JP',sans-serif) !important;
-}
-
-/* ========== Header 基本 ========== */
-.global-header { 
+.global-header{ 
   position: relative; 
-  padding-left: var(--header-pad, 28px);
-  padding-right: var(--header-pad, 28px);
 }
 
-/* subject を指定サイズに（PC72 / SP48） */
-.global-header .header-subject { 
-  height: 72px; 
-  width: auto; 
+/* ヘッダー1行目（ロゴ+ナビ） */
+.global-header .header-container{
+  display:flex; 
+  align-items:center; 
+  justify-content:space-between;
+  padding-left: var(--header-pad);  
+  padding-right: var(--header-pad);
+}
+
+/* ロゴのサイズ（前回指示の維持：2回り拡大） */
+.global-header .header-subject{ 
+  height:72px; 
+  width:auto; 
   display:block; 
 }
 @media (max-width:768px){ 
@@ -120,29 +112,41 @@ body#page-ai-gallery    #main-content{
   } 
 }
 
-/* ========== Ridge belt (確実表示) ========== */
+/* 2段目：山並みベルト */
 .global-header .header-ridge{
-  position: relative;
-  z-index: 20;
-  display: flex;
-  align-items: flex-end;
-  height: 42px;
-  margin-top: 8px;
-  gap: 0;
-  line-height: 0;
-  overflow: visible;
+  display:flex; 
+  align-items:flex-end; 
+  gap:0; 
+  line-height:0;
+  height:42px; 
+  margin-top:8px;                     
+  padding-left: var(--header-pad);                 
+  padding-right: var(--header-pad);
+  position:relative; 
+  z-index:20; 
+  overflow:visible; 
 }
-.global-header .header-ridge img{
-  display:block;
-  height: 100%;
-  width: auto;
-  flex: 0 0 auto;
+.global-header .header-ridge img{ 
+  height:100%; 
+  width:auto; 
+  display:block; 
+  flex:0 0 auto; 
 }
-@media (max-width:768px){
+@media (max-width:768px){ 
   .global-header .header-ridge{ 
-    height: 30px; 
+    height:30px; 
     margin-top:6px; 
-  }
+  } 
+}
+
+/* レイヤリング（念のため） */
+.global-header [class*="kumo"]{ 
+  position:relative; 
+  z-index:10; 
+}
+.global-header .global-nav{ 
+  position:relative; 
+  z-index:40; 
 }
 
 /* 雲(kumo-*)とナビのレイヤリング */
@@ -256,4 +260,15 @@ body#page-ai-gallery    #main-content{
 #splash img{ 
   width:280px; 
   height:auto; 
+}
+
+/* === 2025-08-07  Hero spacer = 40px ============================== */
+.hero-offset{
+  height:40px;
+}
+
+/* === 2025-08-07  Hero intro typography =============================== */
+#hero-intro p{
+  color:#372e51 !important;
+  font-family:var(--font-marugo,'Hiragino Maru Gothic Pro','Noto Sans JP',sans-serif) !important;
 }
