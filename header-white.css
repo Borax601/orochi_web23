@@ -115,36 +115,39 @@ body#page-ai-gallery    #main-content{
   } 
 }
 
-/* 2行目の行ボックス：左右20pxは固定 */
+/* === Full-bleed ridge (端から端まで) === */
+html, body { overflow-x: hidden; }   /* 横スクロール防止（100vw対策） */
+
 .global-header .header-ridge-row{
   position: relative;
   z-index: 20;
   margin-top: 8px;
-  /* 左= 20px + subject実幅 / 右= 20px */
-  margin-left: calc(var(--header-pad) + var(--subject-w));
-  margin-right: var(--header-pad);
+
+  /* フルブリード化トリック：container幅を無視してviewport幅に広げる */
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
 }
 
-/* 画像は列幅いっぱい。縦は上限だけ与える */
 .global-header .header-ridge-single{
   display: block;
-  width: 100%;
-  height: auto;
-  max-height: var(--ridge-h-pc);
-}
-@media (max-width:768px){
-  .global-header .header-ridge-single{ max-height: var(--ridge-h-sp); }
+  width: 100%;     /* 画面幅=100vwに追随 */
+  height: auto;    /* 比率維持。高さを固定したい場合は下記コメント参照 */
 }
 
-/* レイヤリング（念のため） */
-.global-header [class*="kumo"]{ 
-  position:relative; 
-  z-index:10; 
+/* 高さを薄く保ちたい場合（任意・必要ならON）
+.global-header .header-ridge-single{
+  width: 100%;
+  height: clamp(28px, 3.2vw, 56px);  // 画面に応じて薄さを制御
+  object-fit: cover;
 }
-.global-header .global-nav{ 
-  position:relative; 
-  z-index:40; 
-}
+*/
+
+/* レイヤリング（維持） */
+.global-header [class*="kumo"]{ position: relative; z-index: 10; }
+.global-header .global-nav{ position: relative; z-index: 40; }
 
 /* 雲(kumo-*)とナビのレイヤリング */
 .global-header [class*="kumo"]{ 
