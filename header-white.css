@@ -101,6 +101,18 @@ body#page-ai-gallery    #main-content{
   font-family:var(--font-marugo,'Hiragino Maru Gothic Pro','Noto Sans JP',sans-serif) !important;
 }
 
+/* === Header Subject (Step 0-1) === */
+.global-header .header-subject{
+  display: block;
+  height: 44px;       /* PC */
+  width: auto;
+  object-fit: contain;
+  vertical-align: middle;
+}
+@media (max-width: 768px){
+  .global-header .header-subject{ height: 30px; }  /* SP */
+}
+
 /* === Splash Screen =================================================== */
 #splash{
   position:fixed; inset:0; z-index:3000;
