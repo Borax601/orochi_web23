@@ -26,7 +26,8 @@
                  'Noto Sans JP',
                  sans-serif;
   --c-header-text:#372e51;   /* 既存キーカラー */
-  --header-pad: 20px;     /* 左右余白 */
+  --header-pad: 20px;     /* 左右ガターを20pxに統一 */
+  --ridge-up: 20px;     /* header-img.svg を上に寄せる量 */
   --subject-w: 0px;       /* JSで上書きする：subjectの実幅 */
   --ridge-h-pc: 46px;
   --ridge-h-sp: 30px;
@@ -99,7 +100,7 @@ body#page-ai-gallery    #main-content{
   display:flex; 
   align-items:center; 
   justify-content:space-between;
-  padding-left: var(--header-pad);  
+  padding-left: var(--header-pad);
   padding-right: var(--header-pad);
 }
 
@@ -115,48 +116,32 @@ body#page-ai-gallery    #main-content{
   } 
 }
 
-/* === Full-bleed ridge (端から端まで) === */
-html, body { overflow-x: hidden; }   /* 横スクロール防止（100vw対策） */
-
+/* 2行目：ridge 行を“コンテンツ幅いっぱい”に。左右20pxのガターを付与 */
 .global-header .header-ridge-row{
   position: relative;
-  z-index: 20;
+  z-index: 20;                /* ナビより下、雲より上 */
   margin-top: 8px;
+  padding-left: var(--header-pad);
+  padding-right: var(--header-pad);
+  box-sizing: border-box;
 
-  /* フルブリード化トリック：container幅を無視してviewport幅に広げる */
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  width: 100vw;
+  /* 画像を上に20px寄せる（重なってOKとの指示） */
+  transform: translateY(calc(-1 * var(--ridge-up)));
 }
 
+/* 画像本体：親幅100%で比率維持 */
 .global-header .header-ridge-single{
   display: block;
-  width: 100%;     /* 画面幅=100vwに追随 */
-  height: auto;    /* 比率維持。高さを固定したい場合は下記コメント参照 */
-}
-
-/* 高さを薄く保ちたい場合（任意・必要ならON）
-.global-header .header-ridge-single{
   width: 100%;
-  height: clamp(28px, 3.2vw, 56px);  // 画面に応じて薄さを制御
-  object-fit: cover;
+  height: auto;
 }
-*/
 
-/* レイヤリング（維持） */
+/* レイヤリング（念のため維持） */
 .global-header [class*="kumo"]{ position: relative; z-index: 10; }
 .global-header .global-nav{ position: relative; z-index: 40; }
 
-/* 雲(kumo-*)とナビのレイヤリング */
-.global-header [class*="kumo"]{ 
-  position: relative; 
-  z-index: 10; 
-}
-.global-header .global-nav{ 
-  position: relative; 
-  z-index: 40; 
+@media (max-width: 768px){
+  :root{ --ridge-up: 14px; }
 }
 
 /* ===== Right nav / layering ===== */
