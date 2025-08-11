@@ -912,3 +912,16 @@ function setupHeaderAutoHide(){
     }, 700);                                  // 表示 0.7s
   });
 })();
+
+// ridge左端をsubject右端に合わせる（横幅に追随）
+(function(){
+  function setRidgeOffset(){
+    const subject = document.querySelector('.global-header .header-subject');
+    if(!subject) return;
+    // 画像の実表示幅を取得（小数切り上げで1pxズレ防止）
+    const w = Math.ceil(subject.getBoundingClientRect().width);
+    document.documentElement.style.setProperty('--subject-w', w + 'px');
+  }
+  window.addEventListener('DOMContentLoaded', setRidgeOffset);
+  window.addEventListener('resize', setRidgeOffset);
+})();

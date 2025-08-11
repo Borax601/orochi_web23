@@ -26,9 +26,10 @@
                  'Noto Sans JP',
                  sans-serif;
   --c-header-text:#372e51;   /* 既存キーカラー */
-  --header-pad: 28px;
-  --ridge-h-pc: 46px;        /* PCの最大高さ */
-  --ridge-h-sp: 30px;        /* SPの最大高さ */
+  --header-pad: 20px;     /* 左右余白 */
+  --subject-w: 0px;       /* JSで上書きする：subjectの実幅 */
+  --ridge-h-pc: 46px;
+  --ridge-h-sp: 30px;
 }
 
 /* タイトル & ナビリンク */
@@ -114,23 +115,24 @@ body#page-ai-gallery    #main-content{
   } 
 }
 
-/* 2行目の行ボックス（左右余白は1行目と一致） */
+/* 2行目の行ボックス：左右20pxは固定 */
 .global-header .header-ridge-row{
   position: relative;
-  z-index: 20;               /* 雲(kumo-*)より前、ナビは別途z-index:40でさらに前 */
+  z-index: 20;
   margin-top: 8px;
-  padding-left: var(--header-pad);
-  padding-right: var(--header-pad);
+  /* 左= 20px + subject実幅 / 右= 20px */
+  margin-left: calc(var(--header-pad) + var(--subject-w));
+  margin-right: var(--header-pad);
 }
 
-/* 単一SVGを横いっぱい・比率維持で表示。縦は上限だけ与える */
+/* 画像は列幅いっぱい。縦は上限だけ与える */
 .global-header .header-ridge-single{
   display: block;
   width: 100%;
-  height: auto;              /* 比率維持 */
+  height: auto;
   max-height: var(--ridge-h-pc);
 }
-@media (max-width: 768px){
+@media (max-width:768px){
   .global-header .header-ridge-single{ max-height: var(--ridge-h-sp); }
 }
 
