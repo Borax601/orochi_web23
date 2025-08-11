@@ -27,6 +27,8 @@
                  sans-serif;
   --c-header-text:#372e51;   /* 既存キーカラー */
   --header-pad: 28px;
+  --ridge-h-pc: 46px;        /* PCの最大高さ */
+  --ridge-h-sp: 30px;        /* SPの最大高さ */
 }
 
 /* タイトル & ナビリンク */
@@ -112,31 +114,24 @@ body#page-ai-gallery    #main-content{
   } 
 }
 
-/* 2段目：山並みベルト */
-.global-header .header-ridge{
-  display:flex; 
-  align-items:flex-end; 
-  gap:0; 
-  line-height:0;
-  height:42px; 
-  margin-top:8px;                     
-  padding-left: var(--header-pad);                 
+/* 2行目の行ボックス（左右余白は1行目と一致） */
+.global-header .header-ridge-row{
+  position: relative;
+  z-index: 20;               /* 雲(kumo-*)より前、ナビは別途z-index:40でさらに前 */
+  margin-top: 8px;
+  padding-left: var(--header-pad);
   padding-right: var(--header-pad);
-  position:relative; 
-  z-index:20; 
-  overflow:visible; 
 }
-.global-header .header-ridge img{ 
-  height:100%; 
-  width:auto; 
-  display:block; 
-  flex:0 0 auto; 
+
+/* 単一SVGを横いっぱい・比率維持で表示。縦は上限だけ与える */
+.global-header .header-ridge-single{
+  display: block;
+  width: 100%;
+  height: auto;              /* 比率維持 */
+  max-height: var(--ridge-h-pc);
 }
-@media (max-width:768px){ 
-  .global-header .header-ridge{ 
-    height:30px; 
-    margin-top:6px; 
-  } 
+@media (max-width: 768px){
+  .global-header .header-ridge-single{ max-height: var(--ridge-h-sp); }
 }
 
 /* レイヤリング（念のため） */
