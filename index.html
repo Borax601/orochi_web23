@@ -38,10 +38,24 @@
             <nav class="global-nav" aria-label="Main">
                 <ul class="menu">
                     <li><a href="./index.html">本殿</a></li>
-                    <li><a href="./gallery.html">作品</a></li>
-                    <!-- アイコンがある場合は img に置換 -->
+                    <li class="has-submenu">
+                      <a href="./gallery.html">作品</a>
+                      <ul class="submenu">
+                        <li><a href="./gallery.html">奉納作品</a></li>
+                        <li><a href="./toki-sude-ni-orochi.html">時すでにオロチ</a></li>
+                        <li><a href="./video.html">動くオロチ奉納殿</a></li>
+                      </ul>
+                    </li>
                     <li><a href="#" class="icon-link x" aria-label="X"><span>X</span></a></li>
-                    <li><a href="#" class="icon-link shop" aria-label="Shop"><span>Shop</span></a></li>
+                    <li>
+                      <a href="#" class="icon-link shop" aria-label="Shop">
+                        <svg class="cart-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                          <path d="M6 6h14l-2 9H8L6 6Zm0 0H4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <circle cx="9" cy="20" r="1.6" fill="currentColor"/>
+                          <circle cx="17" cy="20" r="1.6" fill="currentColor"/>
+                        </svg>
+                      </a>
+                    </li>
                     <li class="has-sub">
                         <a href="toki-sude-ni-orochi.html">時すでにオロチ</a>
                         <ul class="subnav">
