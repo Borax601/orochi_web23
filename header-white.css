@@ -101,32 +101,86 @@ body#page-ai-gallery    #main-content{
   font-family:var(--font-marugo,'Hiragino Maru Gothic Pro','Noto Sans JP',sans-serif) !important;
 }
 
-/* ===== Header Subject size (拡大) ===== */
-.global-header .header-subject{ height: 72px; width: auto; }
-@media (max-width:768px){ .global-header .header-subject{ height: 48px; } }
+/* ========== Header 基本 ========== */
+.global-header { 
+  position: relative; 
+  padding-left: var(--header-pad, 28px);
+  padding-right: var(--header-pad, 28px);
+}
 
-/* ===== Ridge belt ===== */
-.global-header{ position: relative; }
+/* subject を指定サイズに（PC72 / SP48） */
+.global-header .header-subject { 
+  height: 72px; 
+  width: auto; 
+  display:block; 
+}
+@media (max-width:768px){ 
+  .global-header .header-subject{ 
+    height:48px; 
+  } 
+}
+
+/* ========== Ridge belt (確実表示) ========== */
 .global-header .header-ridge{
+  position: relative;
+  z-index: 20;
   display: flex;
   align-items: flex-end;
+  height: 42px;
+  margin-top: 8px;
   gap: 0;
-  height: 42px;         /* PC見た目に合わせる */
-  margin-top: 8px;      /* subject直下 */
   line-height: 0;
+  overflow: visible;
 }
-.global-header .header-ridge img{ height: 100%; width: auto; display:block; }
-@media (max-width:768px){ .global-header .header-ridge{ height: 30px; margin-top: 6px; } }
+.global-header .header-ridge img{
+  display:block;
+  height: 100%;
+  width: auto;
+  flex: 0 0 auto;
+}
+@media (max-width:768px){
+  .global-header .header-ridge{ 
+    height: 30px; 
+    margin-top:6px; 
+  }
+}
+
+/* 雲(kumo-*)とナビのレイヤリング */
+.global-header [class*="kumo"]{ 
+  position: relative; 
+  z-index: 10; 
+}
+.global-header .global-nav{ 
+  position: relative; 
+  z-index: 40; 
+}
 
 /* ===== Right nav / layering ===== */
-.global-header .global-nav{ position: relative; z-index: 40; }
-.global-header [class*="kumo"]{ position: relative; z-index: 10; }
-.global-header .global-nav .menu{ display:flex; align-items:center; gap:24px; }
-.global-header .global-nav a{ color: var(--c-header-text,#372e51); text-decoration:none; }
-.global-header .global-nav a:hover{ opacity:.8; }
+.global-header .global-nav{ 
+  position: relative; 
+  z-index: 40; 
+}
+.global-header [class*="kumo"]{ 
+  position: relative; 
+  z-index: 10; 
+}
+.global-header .global-nav .menu{ 
+  display:flex; 
+  align-items:center; 
+  gap:24px; 
+}
+.global-header .global-nav a{ 
+  color: var(--c-header-text,#372e51); 
+  text-decoration:none; 
+}
+.global-header .global-nav a:hover{ 
+  opacity:.8; 
+}
 
 /* ===== Dropdown ===== */
-.global-header .menu > li{ position: relative; }
+.global-header .menu > li{ 
+  position: relative; 
+}
 .global-header .menu > li .submenu{
   display: none;
   position: absolute;
@@ -140,24 +194,51 @@ body#page-ai-gallery    #main-content{
   padding: 8px 0;
   z-index: 50;
 }
-.global-header .menu > li .submenu li{ list-style:none; }
-.global-header .menu > li .submenu a{ display:block; padding:10px 14px; white-space:nowrap; }
+.global-header .menu > li .submenu li{ 
+  list-style:none; 
+}
+.global-header .menu > li .submenu a{ 
+  display:block; 
+  padding:10px 14px; 
+  white-space:nowrap; 
+}
 .global-header .menu > li.has-submenu:hover > .submenu,
-.global-header .menu > li.has-submenu:focus-within > .submenu{ display:block; }
+.global-header .menu > li.has-submenu:focus-within > .submenu{ 
+  display:block; 
+}
 
 /* SP（ハンバーガー展開時）: サブメニューは縦並びで常時表示 */
 @media (max-width:768px){
-  .global-header .global-nav.active .submenu{ position: static; display:block; box-shadow:none; border:none; padding: 0 0 0 12px; }
+  .global-header .global-nav.active .submenu{ 
+    position: static; 
+    display:block; 
+    box-shadow:none; 
+    border:none; 
+    padding: 0 0 0 12px; 
+  }
 }
 
 /* ===== Icons size ===== */
-.global-header .icon-link .cart-icon{ height: 18px; width: 18px; display:block; }
-@media (max-width:768px){ .global-header .icon-link .cart-icon{ height:16px; width:16px; } }
+.global-header .icon-link .cart-icon{ 
+  height: 18px; 
+  width: 18px; 
+  display:block; 
+}
+@media (max-width:768px){ 
+  .global-header .icon-link .cart-icon{ 
+    height:16px; 
+    width:16px; 
+  } 
+}
 
 /* === Splash Screen =================================================== */
 #splash{
-  position:fixed; inset:0; z-index:3000;
-  display:flex; align-items:center; justify-content:center;
+  position:fixed; 
+  inset:0; 
+  z-index:3000;
+  display:flex; 
+  align-items:center; 
+  justify-content:center;
   background:#ffffff;
   opacity:1;
   transform:scale(1);                     /* 初期スケール */
@@ -172,4 +253,7 @@ body#page-ai-gallery    #main-content{
   pointer-events:none;
 }
 
-#splash img{ width:280px; height:auto; }
+#splash img{ 
+  width:280px; 
+  height:auto; 
+}
