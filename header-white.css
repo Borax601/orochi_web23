@@ -113,6 +113,45 @@ body#page-ai-gallery    #main-content{
   .global-header .header-subject{ height: 30px; }  /* SP */
 }
 
+/* === Header Ridge (Step 2) ===== */
+.global-header { position: relative; }
+.global-header .header-ridge{
+  display: flex;
+  align-items: flex-end; /* 下端を揃える */
+  gap: 0;               /* 画像の継ぎ目を詰める */
+  height: 38px;         /* PCの見た目に合わせた基準高さ */
+  margin-top: 8px;      /* header-subject の直下に配置 */
+  line-height: 0;       /* 行間の隙間を消す */
+}
+.global-header .header-ridge img{
+  height: 100%;
+  width: auto;
+  display: block;
+}
+@media (max-width: 768px){
+  .global-header .header-ridge{ height: 28px; margin-top: 6px; }
+}
+
+/* === Right nav ordering & layering (Step 3) ===== */
+.global-header .global-nav{ position: relative; z-index: 40; }
+/* 雲（kumo-*.svg）より前面に */
+.global-header [class*="kumo"]{ position: relative; z-index: 10; }
+
+.global-header .global-nav .menu{
+  display: flex;
+  align-items: center;
+  gap: 24px;            /* 文字とアイコンの間隔 */
+}
+.global-header .global-nav a{ text-decoration: none; color: var(--c-header-text, #372e51); }
+.global-header .global-nav a:hover{ opacity: .8; }
+
+/* アイコンリンク（画像に差し替える場合のサイズ） */
+.global-header .global-nav .icon-link img{ height: 18px; width: auto; display: block; }
+@media (max-width: 768px){
+  .global-header .global-nav .menu{ gap: 16px; }
+  .global-header .global-nav .icon-link img{ height: 16px; }
+}
+
 /* === Splash Screen =================================================== */
 #splash{
   position:fixed; inset:0; z-index:3000;
