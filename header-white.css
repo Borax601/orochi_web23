@@ -32,6 +32,7 @@
   --ridge-h-pc: 46px;
   --ridge-h-sp: 30px;
   --gutter: 20px;  /* 左右余白 */
+  --nav-down: 25px;     /* 下方向の移動量（必要なら数値だけ調整） */
 }
 
 /* タイトル & ナビリンク */
@@ -149,6 +150,8 @@ body#page-ai-gallery    #main-content{
 .global-header .global-nav{ 
   position: relative; 
   z-index: 40; 
+  transform: translateY(var(--nav-down));
+  will-change: transform;       /* スクロール時のチラつき抑制（軽量化） */
 }
 .global-header [class*="kumo"]{ 
   position: relative; 
