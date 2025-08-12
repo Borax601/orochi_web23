@@ -219,6 +219,42 @@ body#page-ai-gallery    #main-content{
   }
 }
 
+/* === navリンク（テキスト＋SVG）の共通ホバー下線 === */
+.global-header .global-nav .menu > li > a{
+  position: relative;
+  display: inline-flex;        /* SVGでも幅が出るように */
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;       /* 既存の下線は使わず統一 */
+  padding-bottom: 2px;         /* 下線分の余白 */
+  line-height: 1;
+}
+
+/* 下線本体（SVGにも効くよう擬似要素で描画） */
+.global-header .global-nav .menu > li > a::after{
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: currentColor;    /* 文字色と同色 */
+  opacity: 0;
+  transform: scaleX(0.2);
+  transform-origin: left;
+  transition: opacity .18s ease, transform .18s ease;
+}
+
+/* ホバー/キーボードフォーカスで表示 */
+.global-header .global-nav .menu > li > a:hover::after,
+.global-header .global-nav .menu > li > a:focus-visible::after{
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* 念のため：クリック阻害が無いよう明示 */
+.global-header .global-nav a,
+.global-header .global-nav .icon-link,
+.global-header .global-nav .icon-link .cart-icon{ pointer-events: auto; }
+
 /* === Splash Screen =================================================== */
 #splash{
   position:fixed; 
