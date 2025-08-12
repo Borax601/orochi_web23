@@ -31,6 +31,7 @@
   --subject-w: 0px;       /* JSで上書きする：subjectの実幅 */
   --ridge-h-pc: 46px;
   --ridge-h-sp: 30px;
+  --gutter: 20px;  /* 左右余白 */
 }
 
 /* タイトル & ナビリンク */
@@ -256,4 +257,28 @@ body#page-ai-gallery    #main-content{
 #hero-intro p{
   color:#372e51 !important;
   font-family:var(--font-marugo,'Hiragino Maru Gothic Pro','Noto Sans JP',sans-serif) !important;
+}
+
+/* === ヘッダー左右20pxを完全同期 === */
+header.global-header > .header-container,
+header.global-header > .header-ridge-row{
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box !important;
+  padding-left: var(--gutter) !important;
+  padding-right: var(--gutter) !important;
+  margin: 0 !important; /* 余計な左右マージン打消し */
+}
+
+header.global-header > .header-ridge-row{
+  position: relative !important;
+  z-index: 20 !important;
+  margin-top: 8px !important;
+  transform: translateY(calc(-1 * var(--ridge-up))) !important;
+}
+
+header.global-header > .header-ridge-row .header-ridge-single{
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
 }
