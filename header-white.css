@@ -259,24 +259,41 @@ body#page-ai-gallery    #main-content{
   font-family:var(--font-marugo,'Hiragino Maru Gothic Pro','Noto Sans JP',sans-serif) !important;
 }
 
-/* === ヘッダー左右20pxを完全同期 === */
+/* === 同一ガターを header に集約（左右20px） === */
+:root{
+  --gutter: 20px;   /* 左右余白 */
+  --ridge-up: 20px; /* ridge の上寄せ量 */
+}
+
+/* 親 header が左右ガターを持つ。子行にはパディングを持たせない */
+header.global-header{
+  box-sizing: border-box !important;
+  padding-left: var(--gutter) !important;
+  padding-right: var(--gutter) !important;
+}
+
+/* 両行は header の内側で幅100%・パディング0 */
 header.global-header > .header-container,
 header.global-header > .header-ridge-row{
   width: 100% !important;
   max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
   box-sizing: border-box !important;
-  padding-left: var(--gutter) !important;
-  padding-right: var(--gutter) !important;
-  margin: 0 !important; /* 余計な左右マージン打消し */
 }
 
+/* 2行目：画像を20px上に寄せる */
 header.global-header > .header-ridge-row{
   position: relative !important;
   z-index: 20 !important;
   margin-top: 8px !important;
   transform: translateY(calc(-1 * var(--ridge-up))) !important;
+
+  /* 念のため、旧フルブリード指定を完全無効化 */
+  left: auto !important; right: auto !important;
 }
 
+/* 画像は親幅に追従、比率維持 */
 header.global-header > .header-ridge-row .header-ridge-single{
   display: block !important;
   width: 100% !important;
